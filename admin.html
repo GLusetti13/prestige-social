@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Prestige Social</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C; --gold-light: #E8C97A;
+    --black: #080808; --dark: #0E0E0E; --dark2: #141414; --dark3: #1A1A1A;
+    --white: #F5F0E8; --gray: #888;
+    --green: #2ecc71; --red: #e74c3c; --orange: #f39c12;
+  }
+  body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; font-weight: 300; min-height: 100vh; }
+
+  /* LOGIN */
+  .login-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,168,76,0.06) 0%, transparent 70%);
+  }
+  .login-box {
+    background: var(--dark2); border: 1px solid rgba(201,168,76,0.2);
+    padding: 56px 48px; width: 100%; max-width: 380px; text-align: center;
+  }
+  .login-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--gold); letter-spacing: 0.3em; margin-bottom: 8px; }
+  .login-sub { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); margin-bottom: 40px; }
+  .login-input {
+    width: 100%; background: var(--dark3); border: 1px solid rgba(201,168,76,0.2);
+    color: var(--white); font-family: 'Montserrat', sans-serif; font-size: 0.8rem;
+    padding: 14px 16px; margin-bottom: 12px; letter-spacing: 0.1em; text-align: center;
+  }
+  .login-input:focus { outline: none; border-color: var(--gold); }
+  .login-input::placeholder { color: rgba(245,240,232,0.25); }
+  .login-btn {
+    width: 100%; background: var(--gold); color: var(--black); border: none;
+    font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase; padding: 14px;
+    cursor: pointer; transition: background 0.3s;
+  }
+  .login-btn:hover { background: var(--gold-light); }
+  .login-error { color: var(--red); font-size: 0.65rem; margin-top: 10px; display: none; }
+
+  /* ADMIN PANEL */
+  .admin-panel { display: none; }
+  .admin-nav {
+    background: var(--dark2); border-bottom: 1px solid rgba(201,168,76,0.1);
+    padding: 20px 40px; display: flex; align-items: center; justify-content: space-between;
+  }
+  .admin-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--gold); letter-spacing: 0.2em; }
+  .admin-logo span { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); display: block; margin-top: 2px; }
+  .logout-btn {
+    background: none; border: 1px solid rgba(201,168,76,0.2); color: var(--gray);
+    font-family: 'Montserrat', sans-serif; font-size: 0.62rem; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 8px 20px; cursor: pointer; transition: all 0.2s;
+  }
+  .logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+  .admin-content { padding: 40px; max-width: 1400px; margin: 0 auto; }
+
+  /* STATS */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(201,168,76,0.08); margin-bottom: 40px; }
+  .stat-card { background: var(--dark); padding: 28px 24px; }
+  .stat-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; }
+  .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 300; color: var(--gold); }
+  .stat-value.white { color: var(--white); }
+
+  /* FILTERS */
+  .filters { display: flex; gap: 0; margin-bottom: 24px; }
+  .filter-btn {
+    padding: 10px 28px; background: none; border: 1px solid rgba(201,168,76,0.15);
+    color: var(--gray); font-family: 'Montserrat', sans-serif; font-size: 0.65rem;
+    letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: all 0.2s;
+    margin-right: -1px;
+  }
+  .filter-btn.active { background: var(--gold); color: var(--black); border-color: var(--gold); z-index: 1; }
+  .filter-btn:hover:not(.active) { color: var(--gold); border-color: var(--gold); }
+
+  /* ORDERS TABLE */
+  .orders-wrap { background: var(--dark); border: 1px solid rgba(201,168,76,0.08); }
+  .orders-head {
+    display: grid;
+    grid-template-columns: 140px 100px 1fr 160px 90px 120px 130px;
+    gap: 0; padding: 14px 20px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+    background: var(--dark2);
+  }
+  .orders-head span { font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gray); }
+  .order-row {
+    display: grid;
+    grid-template-columns: 140px 100px 1fr 160px 90px 120px 130px;
+    gap: 0; padding: 18px 20px;
+    border-bottom: 1px solid rgba(201,168,76,0.05);
+    align-items: start; transition: background 0.2s;
+  }
+  .order-row:hover { background: var(--dark2); }
+  .order-row:last-child { border-bottom: none; }
+
+  .order-id { font-family: 'Montserrat', sans-serif; font-size: 0.68rem; color: var(--gold); letter-spacing: 0.05em; font-weight: 500; }
+  .order-date { font-size: 0.62rem; color: var(--gray); }
+  .order-detail { font-size: 0.68rem; line-height: 1.6; }
+  .order-detail .service { font-weight: 500; margin-bottom: 2px; }
+  .order-detail .qty { color: var(--gold); font-size: 0.62rem; }
+  .order-detail .link { color: var(--gray); font-size: 0.58rem; word-break: break-all; }
+  .order-client { font-size: 0.65rem; line-height: 1.6; }
+  .order-client .name { font-weight: 500; }
+  .order-client .email { color: var(--gray); font-size: 0.6rem; }
+  .order-amount { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; color: var(--gold); }
+  .order-pay { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray); margin-top: 2px; }
+
+  .status-badge {
+    display: inline-block; padding: 4px 12px;
+    font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500;
+    border-radius: 2px;
+  }
+  .status-pending { background: rgba(243,156,18,0.15); color: var(--orange); border: 1px solid rgba(243,156,18,0.3); }
+  .status-done { background: rgba(46,204,113,0.1); color: var(--green); border: 1px solid rgba(46,204,113,0.2); }
+
+  .btn-treat {
+    background: none; border: 1px solid rgba(46,204,113,0.3); color: var(--green);
+    font-family: 'Montserrat', sans-serif; font-size: 0.58rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 6px 12px; cursor: pointer; transition: all 0.2s;
+    width: 100%;
+  }
+  .btn-treat:hover { background: rgba(46,204,113,0.1); }
+  .btn-treated {
+    background: none; border: 1px solid rgba(201,168,76,0.2); color: var(--gray);
+    font-family: 'Montserrat', sans-serif; font-size: 0.58rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 6px 12px; cursor: pointer; transition: all 0.2s;
+    width: 100%;
+  }
+  .btn-treated:hover { border-color: var(--red); color: var(--red); }
+
+  .empty-orders {
+    padding: 80px 40px; text-align: center; color: var(--gray);
+    font-size: 0.78rem; letter-spacing: 0.1em;
+  }
+  .empty-icon { font-size: 2.5rem; opacity: 0.2; margin-bottom: 16px; }
+
+  @media (max-width: 900px) {
+    .admin-content { padding: 20px; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .orders-head { display: none; }
+    .order-row { grid-template-columns: 1fr; gap: 8px; padding: 20px; }
+  }
+  .reset-btn {
+    background: none; border: 1px solid rgba(231,76,60,0.3); color: var(--red);
+    font-family: 'Montserrat', sans-serif; font-size: 0.62rem; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 8px 20px; cursor: pointer; transition: all 0.2s;
+  }
+  .reset-btn:hover { background: rgba(231,76,60,0.1); border-color: var(--red); }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">PRESTIGE</div>
+    <div class="login-sub">Panneau Administrateur</div>
+    <input class="login-input" id="pwdInput" type="password" placeholder="Mot de passe" onkeydown="if(event.key==='Enter')tryLogin()">
+    <button class="login-btn" onclick="tryLogin()">Accéder</button>
+    <div class="login-error" id="loginError">Mot de passe incorrect.</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-nav">
+    <div class="admin-logo">PRESTIGE Social <span>Panneau admin</span></div>
+    <div class="logout-btn" style="display:flex;gap:12px;align-items:center;">
+      <button class="reset-btn" onclick="resetOrders()">🗑 Vider les commandes</button>
+      <button class="logout-btn" onclick="logout()">Déconnexion</button>
+    </div>
+  </div>
+
+  <div class="admin-content">
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Total commandes</div>
+        <div class="stat-value white" id="statTotal">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">En attente</div>
+        <div class="stat-value" id="statPending" style="color:var(--orange)">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Traitées</div>
+        <div class="stat-value" id="statDone" style="color:var(--green)">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Revenus totaux</div>
+        <div class="stat-value" id="statRevenue">€0</div>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <div class="filters">
+      <button class="filter-btn active" onclick="setFilter('all', this)">Toutes</button>
+      <button class="filter-btn" onclick="setFilter('pending', this)">⏳ En attente</button>
+      <button class="filter-btn" onclick="setFilter('done', this)">✅ Traitées</button>
+    </div>
+
+    <!-- ORDERS -->
+    <div class="orders-wrap">
+      <div class="orders-head">
+        <span>N° Commande</span>
+        <span>Date</span>
+        <span>Détail</span>
+        <span>Client</span>
+        <span>Montant</span>
+        <span>Statut</span>
+        <span>Action</span>
+      </div>
+      <div id="ordersList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const ADMIN_PWD = '1234ghjise';
+  let currentFilter = 'all';
+
+  function resetOrders() {
+    if (!confirm('Vider toutes les commandes ? Cette action est irréversible.')) return;
+    localStorage.removeItem('prestige_orders');
+    loadOrders();
+  }
+
+  function tryLogin() {
+    const pwd = document.getElementById('pwdInput').value;
+    if (pwd === ADMIN_PWD) {
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      loadOrders();
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  }
+
+  function logout() {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('adminPanel').style.display = 'none';
+    document.getElementById('pwdInput').value = '';
+  }
+
+  function getOrders() {
+    return JSON.parse(localStorage.getItem('prestige_orders') || '[]');
+  }
+
+  function saveOrders(orders) {
+    localStorage.setItem('prestige_orders', JSON.stringify(orders));
+  }
+
+  function setFilter(f, btn) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    loadOrders();
+  }
+
+  function markAs(orderId, status) {
+    const orders = getOrders();
+    const idx = orders.findIndex(o => o.id === orderId);
+    if (idx !== -1) { orders[idx].status = status; saveOrders(orders); loadOrders(); }
+  }
+
+  function loadOrders() {
+    const orders = getOrders();
+    const filtered = currentFilter === 'all' ? orders : orders.filter(o => o.status === (currentFilter === 'pending' ? 'pending' : 'done'));
+
+    // Stats
+    document.getElementById('statTotal').textContent = orders.length;
+    document.getElementById('statPending').textContent = orders.filter(o => o.status === 'pending').length;
+    document.getElementById('statDone').textContent = orders.filter(o => o.status === 'done').length;
+    const revenue = orders.filter(o => o.status === 'done').reduce((s, o) => s + o.total, 0);
+    document.getElementById('statRevenue').textContent = '€' + revenue.toFixed(2).replace('.', ',');
+
+    const container = document.getElementById('ordersList');
+    if (!filtered.length) {
+      container.innerHTML = '<div class="empty-orders"><div class="empty-icon">📋</div>Aucune commande trouvée.</div>';
+      return;
+    }
+
+    container.innerHTML = filtered.map(order => {
+      const date = new Date(order.date);
+      const dateStr = date.toLocaleDateString('fr-FR') + ' ' + date.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+      const isPending = order.status === 'pending';
+
+      const itemsHtml = (order.items || []).map(item => `
+        <div style="margin-bottom:6px; padding-bottom:6px; border-bottom:1px solid rgba(201,168,76,0.06);">
+          <div class="service">${item.icon || ''} ${item.label}</div>
+          <div class="qty">${item.qty} ${item.qty && !String(item.qty).includes('likes') && !String(item.qty).includes('abonnés') ? 'unités' : ''}</div>
+          <div class="link">${item.handle || ''}</div>
+        </div>
+      `).join('');
+
+      const payLabel = order.payMethod === 'paypal' ? '🅿️ PayPal' : order.payMethod === 'card' ? '💳 Carte' : order.payMethod || '';
+
+      return `
+        <div class="order-row">
+          <div>
+            <div class="order-id">${order.id}</div>
+            <div class="order-date" style="margin-top:4px">${dateStr}</div>
+          </div>
+          <div class="order-date">${dateStr}</div>
+          <div class="order-detail">${itemsHtml}</div>
+          <div class="order-client">
+            <div class="name">${order.name || '—'}</div>
+            <div class="email">${order.email || '—'}</div>
+          </div>
+          <div>
+            <div class="order-amount">€${(order.total || 0).toFixed(2).replace('.', ',')}</div>
+            <div class="order-pay">${payLabel}</div>
+          </div>
+          <div>
+            <span class="status-badge ${isPending ? 'status-pending' : 'status-done'}">
+              ${isPending ? '⏳ En attente' : '✅ Traité'}
+            </span>
+          </div>
+          <div>
+            ${isPending
+              ? `<button class="btn-treat" onclick="markAs('${order.id}', 'done')">✓ Marquer traité</button>`
+              : `<button class="btn-treated" onclick="markAs('${order.id}', 'pending')">↩ Remettre en attente</button>`
+            }
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+</script>
+</body>
+</html>
