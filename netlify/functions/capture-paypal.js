@@ -153,11 +153,39 @@ async function sendConfirmationEmail(name, email, orderId, total) {
   return res.ok;
 }
 
+async function saveToAirtable(orderId, date, name, email, total, items, method) {
+  const articlesText = items.map(i => `${i.icon} ${i.label} — ${i.qty} — ${i.handle}`).join('\n');
+  const res = await fetch(`https://api.airtable.com/v0/appIaNd2nnVeMrVPV/tbl4NTNNq1fs5iZdh`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.AIRTABLE_API_KEY}`
+    },
+    body: JSON.stringify({
+      fields: {
+        'ID Commande': orderId,
+        'Date': date,
+        'Prénom': name,
+        'Email': email,
+        'Total': parseFloat(total),
+        'Articles': articlesText,
+        'Statut': 'En attente',
+        'Méthode paiement': 'PayPal'
+      }
+    })
+  });
+  if (!res.ok) {
+    const err = await res.text();
+    console.log('AIRTABLE ERROR:', err);
+  }
+  return res.ok;
+}
+
 exports.handler = async function(event) {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
 
   try {
-    const { paypalOrderId, orderId, total, email, name } = JSON.parse(event.body);
+    const { paypalOrderId, orderId, total, email, name, items } = JSON.parse(event.body);
     console.log('Capture request:', { paypalOrderId, orderId, total, email, name });
 
     // 1. Capturer le paiement PayPal
@@ -176,7 +204,12 @@ exports.handler = async function(event) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Paiement non complété', details: capture }) };
     }
 
-    // 2. Envoyer le mail de confirmation
+    const date = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
+
+    // 2. Sauvegarder dans Airtable
+    await saveToAirtable(orderId, date, name, email, total, items || [], 'PayPal');
+
+    // 3. Envoyer le mail de confirmation
     await sendConfirmationEmail(name, email, orderId, total);
 
     return { statusCode: 200, body: JSON.stringify({ success: true, orderId }) };
