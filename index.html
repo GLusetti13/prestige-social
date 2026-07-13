@@ -1432,12 +1432,32 @@
   function openCart() { document.getElementById('cartPanel').classList.add('open'); }
   function closeModal() { document.getElementById('successModal').classList.remove('open'); }
 
-  // Retour PayPal success — on confirme la commande dans l'admin seulement ici
+  // Retour PayPal success — capture paiement + mail + sauvegarde admin
   const urlP = new URLSearchParams(window.location.search);
   if (urlP.get('paypal_success') === 'true') {
     const oid = urlP.get('order') || '';
-    if (oid) {
-      confirmOrder(oid); // ← sauvegarde dans localStorage uniquement si paiement validé
+    const paypalToken = urlP.get('token') || ''; // token PayPal = paypalOrderId
+    if (oid && paypalToken) {
+      // Récupérer les infos stockées temporairement
+      const pending = JSON.parse(sessionStorage.getItem('prestige_pending_order') || '{}');
+      // Appeler capture-paypal : capture paiement + envoi mail
+      fetch('/.netlify/functions/capture-paypal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paypalOrderId: paypalToken,
+          orderId: oid,
+          total: pending.total || 0,
+          email: pending.email || '',
+          name: pending.name || ''
+        })
+      }).then(r => r.json()).then(data => {
+        if (data.success) {
+          confirmOrder(oid); // sauvegarde dans localStorage (admin)
+        }
+      }).catch(e => console.log('Capture error:', e));
+
+      // Afficher la modale de succès immédiatement
       document.getElementById('modalOrderId').textContent = 'Commande n° ' + oid;
       document.getElementById('successModal').classList.add('open');
     }
