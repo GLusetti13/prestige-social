@@ -769,6 +769,1686 @@
   .footer-links a { font-size: 0.62rem; color: rgba(245,240,232,0.35); text-decoration: none; letter-spacing: 0.12em; transition: color 0.2s; }
   .footer-links a:hover { color: var(--gold); }
   .admin-secret {
+    font-size: 0.7rem; color: rgba(245,240,232,0.12);
+    letter-spacing: 0.3em;
+    transition: color 0.4s;
+    cursor: default;
+    user-select: none;
+  }
+  .admin-secret:hover { color: rgba(201,168,76,0.4) !important; cursor: pointer; }
+
+  /* ─── MISC ─── */
+  .likes-error {
+    display: none;
+    color: #ff5555;
+    font-size: 0.66rem; letter-spacing: 0.05em;
+    margin-bottom: 10px; padding: 9px 12px;
+    border: 1px solid rgba(255,68,68,0.25);
+    background: rgba(255,68,68,0.05);
+  }
+  .posts-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; }
+  .posts-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+  .post-row { display: flex; gap: 8px; align-items: center; }
+  .post-link { flex: 2; margin-bottom: 0 !important; }
+  .post-nb { flex: 1; min-width: 90px; margin-bottom: 0 !important; }
+  .btn-add-post {
+    background: none; border: 1px dashed rgba(201,168,76,0.2);
+    color: var(--gold); font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem; letter-spacing: 0.18em;
+    padding: 8px 14px; margin-bottom: 12px;
+    cursor: pointer; transition: all 0.2s; width: 100%;
+  }
+  .btn-add-post:hover { border-color: rgba(201,168,76,0.4); background: rgba(201,168,76,0.04); }
+  .amount-input-wrap { margin-bottom: 12px; }
+  .amount-label { font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gray); display: block; margin-bottom: 8px; }
+  .amount-equiv {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem; font-weight: 300;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-top: 10px; margin-bottom: 16px; min-height: 44px;
+  }
+
+  /* ─── ANIMATIONS ─── */
+  .fade-up {
+    opacity: 0; transform: translateY(36px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    nav { padding: 18px 24px; }
+    nav ul { display: none; }
+    #services, #process { padding: 64px 24px; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .trust-bar { gap: 40px; padding: 40px 24px; }
+    footer { padding: 40px 24px; flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+    .cart-panel { width: 100%; right: -100%; }
+    .cart-panel.open { right: 0; }
+    h1 { font-size: clamp(3rem, 10vw, 5rem); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#services" class="logo" onclick="resetToChooser()">PRESTIGE <span>Social</span></a>
+  <ul>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Processus</a></li>
+    <li><a href="#services">Tarifs</a></li>
+  </ul>
+  <a href="#services" class="nav-cta">Commander</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-aurora"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="hero-tag-line"></span>
+      Croissance premium
+      <span class="hero-tag-line"></span>
+    </div>
+    <h1>
+      Élevez votre<br>
+      <em>présence</em><br>
+      digitale
+    </h1>
+    <p class="hero-sub">
+      Services d'engagement exclusifs pour TikTok et Instagram. Discrétion, qualité et résultats garantis.
+    </p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-gold">Découvrir les offres</a>
+      <a href="#process" class="btn-outline">Comment ça marche</a>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORMS STRIP -->
+<div class="platforms-strip">
+  <div class="plat-pill"><span class="plat-dot dot-tiktok"></span> TikTok</div>
+  <div class="plat-pill"><span class="plat-dot dot-insta"></span> Instagram</div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item">
+    <div class="trust-num">12K+</div>
+    <div class="trust-label">Clients satisfaits</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-num">48h</div>
+    <div class="trust-label">Délai max garanti</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-num">100%</div>
+    <div class="trust-label">Sécurisé & discret</div>
+  </div>
+  <div class="trust-item">
+    <div class="trust-num">2</div>
+    <div class="trust-label">Plateformes maîtrisées</div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header fade-up">
+    <div class="section-label">Nos prestations</div>
+    <h2>Choisissez votre <em>plateforme</em></h2>
+    <p class="services-desc">Des offres taillées pour chaque réseau. Abonnés, likes et commentaires livrés avec soin et rapidité.</p>
+  </div>
+
+  <!-- PLATFORM CHOOSER -->
+  <div class="platform-chooser" id="platformChooser">
+    <p class="chooser-label">Choisissez votre plateforme pour voir les offres</p>
+    <div class="chooser-cards">
+      <div class="chooser-card" onclick="selectPlatform('instagram')">
+        <div class="chooser-icon">📸</div>
+        <div class="chooser-name">Instagram</div>
+        <div class="chooser-sub">Abonnés & Likes</div>
+      </div>
+      <div class="chooser-card" onclick="selectPlatform('tiktok')">
+        <div class="chooser-icon">🎵</div>
+        <div class="chooser-name">TikTok</div>
+        <div class="chooser-sub">Abonnés & Likes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SERVICES GRID -->
+  <div id="servicesContent" style="display:none">
+    <div class="platform-tabs" id="platformTabs">
+      <button class="ptab" id="tab-instagram" onclick="switchPlatform('instagram')">📸 Instagram</button>
+      <button class="ptab" id="tab-tiktok" onclick="switchPlatform('tiktok')">🎵 TikTok</button>
+    </div>
+
+    <div class="platform-panels">
+
+      <!-- INSTAGRAM -->
+      <div id="panel-instagram">
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="card-corner">📸</div>
+            <div class="card-type">Instagram</div>
+            <div class="card-title">Abonnés</div>
+            <div class="card-desc">
+              Profils réels, haute rétention. Livraison naturelle et progressive.<br>
+              <span class="card-notice">⚠️ Votre compte doit être en <strong>public</strong> pour recevoir les abonnés. Minimum : <strong>1 000</strong>.</span>
+            </div>
+            <div class="card-rate">€50 <span>/ 10 000 abonnés</span></div>
+            <div class="amount-input-wrap">
+              <label class="amount-label">Nombre d'abonnés désiré</label>
+              <input class="card-input" id="qty-ig-followers" type="number" min="1000" step="100" placeholder="ex: 5000" oninput="updateFollowersPrice('ig-followers', this.value, 0.005)">
+            </div>
+            <input class="card-input" id="handle-ig-followers" placeholder="Lien vers votre profil Instagram (ex: instagram.com/votrenom)" type="text">
+            <div class="amount-equiv" id="equiv-ig-followers">€0</div>
+            <button class="btn-add" onclick="addToCartFollowers('ig-followers', 'instagram', 'Abonnés Instagram', '📸', 1000, 0.005)"><span>Ajouter au panier</span></button>
+          </div>
+
+          <div class="service-card">
+            <div class="card-corner">📸</div>
+            <div class="card-type">Instagram</div>
+            <div class="card-title">Likes</div>
+            <div class="card-desc">
+              Likes naturels sur vos photos ou Reels. Répartissables sur plusieurs posts.<br>
+              <span class="card-notice">⚠️ Votre compte doit être en <strong>public</strong>. Minimum : <strong>20 000 likes</strong>.</span>
+            </div>
+            <div class="card-rate">€1 <span>/ 1 000 likes</span></div>
+            <div class="amount-input-wrap">
+              <label class="amount-label">Nombre de likes désiré (total)</label>
+              <input class="card-input" id="qty-ig-likes" type="number" min="20000" step="1000" placeholder="ex: 50000" oninput="updateLikesPrice('ig-likes', this.value, 0.001)">
+            </div>
+            <div class="posts-label">Lien(s) et répartition par post</div>
+            <div class="posts-list" id="posts-ig-likes">
+              <div class="post-row">
+                <input class="card-input post-link" placeholder="Lien du post" type="text">
+                <input class="card-input post-nb" type="number" min="1000" step="1000" placeholder="nb likes">
+              </div>
+            </div>
+            <button class="btn-add-post" onclick="addPostRow('ig-likes')">+ Ajouter un post</button>
+            <div class="amount-equiv" id="equiv-ig-likes">€0</div>
+            <div class="likes-error" id="err-ig-likes">⚠️ Le minimum est de 20 000 likes.</div>
+            <button class="btn-add" id="btn-ig-likes" onclick="addToCartLikes('ig-likes', 'instagram', 'Likes Instagram', '📸', 20000, 0.001)"><span>Ajouter au panier</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIKTOK -->
+      <div id="panel-tiktok">
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="card-corner">🎵</div>
+            <div class="card-type">TikTok</div>
+            <div class="card-title">Abonnés</div>
+            <div class="card-desc">
+              Profils de qualité, livraison progressive et naturelle. Rétention garantie 30 jours.<br>
+              <span class="card-notice">⚠️ Votre compte doit être en <strong>public</strong> pour recevoir les abonnés. Minimum : <strong>1 000</strong>.</span>
+            </div>
+            <div class="card-rate">€160 <span>/ 10 000 abonnés</span></div>
+            <div class="amount-input-wrap">
+              <label class="amount-label">Nombre d'abonnés désiré</label>
+              <input class="card-input" id="qty-tt-followers" type="number" min="1000" step="100" placeholder="ex: 5000" oninput="updateFollowersPrice('tt-followers', this.value, 0.016)">
+            </div>
+            <input class="card-input" id="handle-tt-followers" placeholder="Lien vers votre profil TikTok (ex: tiktok.com/@votrenom)" type="text">
+            <div class="amount-equiv" id="equiv-tt-followers">€0</div>
+            <button class="btn-add" onclick="addToCartFollowers('tt-followers', 'tiktok', 'Abonnés TikTok', '🎵', 1000, 0.016)"><span>Ajouter au panier</span></button>
+          </div>
+
+          <div class="service-card">
+            <div class="card-corner">🎵</div>
+            <div class="card-type">TikTok</div>
+            <div class="card-title">Likes</div>
+            <div class="card-desc">
+              Likes naturels sur vos vidéos TikTok. Répartissables sur plusieurs vidéos.<br>
+              <span class="card-notice">⚠️ Votre compte doit être en <strong>public</strong>. Minimum : <strong>20 000 likes</strong>.</span>
+            </div>
+            <div class="card-rate">€25 <span>/ 20 000 likes</span></div>
+            <div class="amount-input-wrap">
+              <label class="amount-label">Nombre de likes désiré (total)</label>
+              <input class="card-input" id="qty-tt-likes" type="number" min="20000" step="1000" placeholder="ex: 50000" oninput="updateLikesPrice('tt-likes', this.value, 0.00125)">
+            </div>
+            <div class="posts-label">Lien(s) et répartition par vidéo</div>
+            <div class="posts-list" id="posts-tt-likes">
+              <div class="post-row">
+                <input class="card-input post-link" placeholder="Lien de la vidéo" type="text">
+                <input class="card-input post-nb" type="number" min="1000" step="1000" placeholder="nb likes">
+              </div>
+            </div>
+            <button class="btn-add-post" onclick="addPostRow('tt-likes')">+ Ajouter une vidéo</button>
+            <div class="amount-equiv" id="equiv-tt-likes">€0</div>
+            <div class="likes-error" id="err-tt-likes">⚠️ Le minimum est de 20 000 likes.</div>
+            <button class="btn-add" id="btn-tt-likes" onclick="addToCartLikes('tt-likes', 'tiktok', 'Likes TikTok', '🎵', 20000, 0.00125)"><span>Ajouter au panier</span></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="fade-up">
+    <div class="section-label">Comment ça marche</div>
+    <h2>Simple, rapide, <em>efficace</em></h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-item fade-up">
+      <div class="process-num">01</div>
+      <div class="process-title">Choisissez votre offre</div>
+      <div class="process-desc">Sélectionnez la plateforme, le service et la quantité qui correspondent à vos besoins.</div>
+    </div>
+    <div class="process-item fade-up">
+      <div class="process-num">02</div>
+      <div class="process-title">Entrez votre pseudo</div>
+      <div class="process-desc">Renseignez votre lien ou pseudo. Pas besoin de mot de passe.</div>
+    </div>
+    <div class="process-item fade-up">
+      <div class="process-num">03</div>
+      <div class="process-title">Paiement sécurisé</div>
+      <div class="process-desc">Réglez via PayPal. Transaction cryptée SSL et paiement entièrement sécurisé.</div>
+    </div>
+    <div class="process-item fade-up">
+      <div class="process-num">04</div>
+      <div class="process-title">Livraison garantie</div>
+      <div class="process-desc">Traitement sous 24–48h. Livraison discrète et progressive.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">PRESTIGE <span style="font-style:italic;color:var(--white);">Social</span></div>
+  <div class="footer-copy">© 2026 Prestige Social. Tous droits réservés.</div>
+  <div class="footer-links">
+    <a href="#">CGV</a>
+    <a href="#">Confidentialité</a>
+    <a href="#">Contact</a>
+  </div>
+</footer>
+<div style="text-align:center;padding:14px 0 22px;background:var(--black);">
+  <span class="admin-secret" onclick="openAdmin()">· · ·</span>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     ADMIN OVERLAY
+═══════════════════════════════════════════ -->
+<div id="adminOverlay" style="display:none;position:fixed;inset:0;z-index:2000;background:var(--black);overflow-y:auto;">
+
+  <!-- LOGIN ADMIN -->
+  <div id="adminLogin" style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,168,76,0.07) 0%, transparent 70%);">
+    <div style="background:var(--dark2);border:1px solid rgba(201,168,76,0.2);padding:64px 52px;width:100%;max-width:400px;text-align:center;position:relative;overflow:hidden;">
+      <!-- Ligne dorée haut -->
+      <div style="position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div>
+      <!-- Logo -->
+      <div style="font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold);letter-spacing:0.35em;margin-bottom:6px;">PRESTIGE</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:rgba(245,240,232,0.4);letter-spacing:0.2em;margin-bottom:48px;">Panneau Administrateur</div>
+      <!-- Séparateur -->
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:36px;">
+        <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.2));"></div>
+        <div style="font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:rgba(201,168,76,0.4);">Accès sécurisé</div>
+        <div style="flex:1;height:1px;background:linear-gradient(270deg,transparent,rgba(201,168,76,0.2));"></div>
+      </div>
+      <input id="adminPwdInput" type="password" placeholder="••••••••••"
+        style="width:100%;background:var(--dark3);border:1px solid rgba(201,168,76,0.18);color:var(--white);font-family:'Montserrat',sans-serif;font-size:1rem;padding:16px;margin-bottom:12px;letter-spacing:0.3em;text-align:center;transition:border-color 0.3s;outline:none;"
+        onfocus="this.style.borderColor='rgba(201,168,76,0.5)'"
+        onblur="this.style.borderColor='rgba(201,168,76,0.18)'"
+        onkeydown="if(event.key==='Enter')tryAdminLogin()">
+      <div id="adminLoginError" style="display:none;color:#e74c3c;font-size:0.65rem;letter-spacing:0.1em;margin-bottom:12px;">Mot de passe incorrect.</div>
+      <button onclick="tryAdminLogin()"
+        style="width:100%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--black);border:none;font-family:'Montserrat',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;padding:16px;cursor:pointer;transition:opacity 0.3s;margin-bottom:20px;"
+        onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+        Accéder
+      </button>
+      <button onclick="closeAdmin()"
+        style="background:none;border:none;color:rgba(245,240,232,0.2);font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:color 0.3s;"
+        onmouseover="this.style.color='rgba(245,240,232,0.5)'" onmouseout="this.style.color='rgba(245,240,232,0.2)'">
+        ← Retour au site
+      </button>
+      <!-- Ligne dorée bas -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="adminDashboard" style="display:none;">
+    <!-- Nav -->
+    <div style="background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.1);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:10;">
+      <div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold);letter-spacing:0.2em;">PRESTIGE Social</div>
+        <div style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-top:2px;">Panneau admin</div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;">
+        <button onclick="loadAdminOrders()" id="adminRefreshBtn"
+          style="background:none;border:1px solid rgba(201,168,76,0.3);color:var(--gold);font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;padding:8px 20px;cursor:pointer;transition:all 0.2s;"
+          onmouseover="this.style.background='rgba(201,168,76,0.08)'" onmouseout="this.style.background='none'">
+          ↻ Actualiser
+        </button>
+        <button onclick="adminLogout()"
+          style="background:none;border:1px solid rgba(201,168,76,0.15);color:var(--gray);font-family:'Montserrat',sans-serif;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;padding:8px 20px;cursor:pointer;transition:all 0.2s;"
+          onmouseover="this.style.borderColor='#e74c3c';this.style.color='#e74c3c'" onmouseout="this.style.borderColor='rgba(201,168,76,0.15)';this.style.color='var(--gray)'">
+          Déconnexion
+        </button>
+      </div>
+    </div>
+
+    <div style="padding:40px;max-width:1400px;margin:0 auto;">
+      <!-- Stats -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,76,0.08);margin-bottom:40px;">
+        <div style="background:var(--dark);padding:28px 24px;">
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Total commandes</div>
+          <div id="aStatTotal" style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--white);">—</div>
+        </div>
+        <div style="background:var(--dark);padding:28px 24px;">
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">En attente</div>
+          <div id="aStatPending" style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:#f39c12;">—</div>
+        </div>
+        <div style="background:var(--dark);padding:28px 24px;">
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Traitées</div>
+          <div id="aStatDone" style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:#2ecc71;">—</div>
+        </div>
+        <div style="background:var(--dark);padding:28px 24px;">
+          <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Revenus totaux</div>
+          <div id="aStatRevenue" style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--gold);">—</div>
+        </div>
+      </div>
+
+      <!-- Filtres -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;">
+          <button id="aFilterAll" class="afbtn active-filter" onclick="setAdminFilter('all',this)" style="padding:10px 28px;background:var(--gold);color:var(--black);border:1px solid var(--gold);font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;margin-right:-1px;">Toutes</button>
+          <button id="aFilterPending" class="afbtn" onclick="setAdminFilter('En attente',this)" style="padding:10px 28px;background:none;color:var(--gray);border:1px solid rgba(201,168,76,0.15);font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;margin-right:-1px;">⏳ En attente</button>
+          <button id="aFilterDone" class="afbtn" onclick="setAdminFilter('Traité',this)" style="padding:10px 28px;background:none;color:var(--gray);border:1px solid rgba(201,168,76,0.15);font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;cursor:pointer;">✅ Traitées</button>
+        </div>
+        <div id="aLastRefresh" style="font-size:0.58rem;color:rgba(245,240,232,0.25);letter-spacing:0.1em;"></div>
+      </div>
+
+      <!-- Table -->
+      <div style="background:var(--dark);border:1px solid rgba(201,168,76,0.08);">
+        <div style="display:grid;grid-template-columns:150px 120px 1fr 180px 110px 140px 150px;padding:14px 20px;border-bottom:1px solid rgba(201,168,76,0.1);background:var(--dark2);">
+          <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">N° Commande</span>
+          <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">Date</span>
+          <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">Détail</span>
+          <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">Client</span>
+          <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">Montant</span>
+          <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">Statut</span>
+          <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">Action</span>
+        </div>
+        <div id="adminOrdersList">
+          <div style="text-align:center;padding:80px 40px;color:var(--gray);font-size:0.72rem;letter-spacing:0.15em;">
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin:0 3px;animation:bounce 1.2s ease-in-out infinite;"></span>
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin:0 3px;animation:bounce 1.2s ease-in-out 0.2s infinite;"></span>
+            <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--gold);margin:0 3px;animation:bounce 1.2s ease-in-out 0.4s infinite;"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CART TOGGLE -->
+<button class="cart-toggle" onclick="toggleCart()">
+  🛒
+  <span class="cart-badge" id="cartBadge" style="display:none">0</span>
+</button>
+
+<!-- CART PANEL -->
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-panel-head">
+    <div class="cart-panel-title">Votre commande</div>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty">
+      <div class="cart-empty-icon">🛒</div>
+      <div>Votre panier est vide</div>
+    </div>
+  </div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total-main">
+      <div class="cart-total-label">Total</div>
+      <div class="cart-total-amount" id="cartTotal">€0,00</div>
+    </div>
+
+    <div class="order-form">
+      <input class="form-input" id="orderEmail" placeholder="Votre email (pour le reçu)" type="email">
+      <input class="form-input" id="orderName" placeholder="Votre prénom" type="text">
+
+      <div class="payment-section">
+        <div class="payment-label">Méthode de paiement</div>
+        <div class="payment-methods">
+          <!-- Bouton PayPal : moitié gauche logo PayPal + moitié droite cartes bancaires -->
+          <button class="btn-paypal" onclick="payWithPaypal()">
+            <!-- Côté gauche : logo PayPal officiel -->
+            <div class="paypal-half-left">
+              <svg viewBox="0 0 101 32" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12.237 2.8c-.88-.988-2.473-1.41-4.5-1.41H2.132a.75.75 0 0 0-.74.633L0 20.138a.45.45 0 0 0 .444.52h3.231l-.812 5.156a.392.392 0 0 0 .386.453h2.712c.325 0 .6-.236.65-.557l.027-.14.515-3.274.033-.18c.05-.32.326-.556.651-.556h.41c2.657 0 4.736-1.08 5.342-4.2.254-1.305.123-2.394-.549-3.161a2.62 2.62 0 0 0-.753-.553z" fill="#009cde"/>
+                <path d="M12.237 2.8c-.88-.988-2.473-1.41-4.5-1.41H2.132a.75.75 0 0 0-.74.633L0 20.138a.45.45 0 0 0 .444.52h3.231l.812-5.16-.026.163a.748.748 0 0 1 .739-.633h1.54c3.023 0 5.39-1.228 6.083-4.783.02-.105.038-.207.054-.308-.088-.046-.088-.046 0 0 .205-1.308-.002-2.198-.672-3.137z" fill="#012169"/>
+                <path d="M5.532 7.108a.65.65 0 0 1 .643-.55h4.088c.485 0 .937.032 1.35.099a5.62 5.62 0 0 1 .828.207c.204.072.392.156.565.253.205 1.308-.002 2.198-.672 3.137-.693 3.555-3.06 4.783-6.083 4.783H4.71a.748.748 0 0 0-.739.633l-.812 5.16H.444A.45.45 0 0 1 0 20.138L1.392 3.023a.75.75 0 0 1 .74-.633h5.605c2.027 0 3.62.422 4.5 1.41z" fill="#003087"/>
+                <path d="M38.08 7.422h-5.084a.7.7 0 0 0-.693.592l-2.044 12.963-.006.038a.42.42 0 0 0 .415.483h2.427c.342 0 .634-.249.687-.588l.55-3.49a.7.7 0 0 1 .692-.591h1.608c3.348 0 5.28-1.62 5.784-4.831.227-1.404.01-2.507-.648-3.28-.723-.847-2.002-1.296-3.688-1.296zm.587 4.757c-.278 1.826-1.671 1.826-3.019 1.826h-.766l.538-3.408a.42.42 0 0 1 .415-.355h.352c.918 0 1.784 0 2.231.523.267.313.348.777.25 1.414z" fill="#003087"/>
+                <path d="M55.268 12.118h-2.433a.42.42 0 0 0-.415.355l-.107.675-.169-.245c-.523-.76-1.689-1.013-2.854-1.013-2.67 0-4.951 2.024-5.395 4.861-.23 1.416.097 2.769.9 3.713.737.868 1.79 1.229 3.044 1.229 2.151 0 3.345-1.383 3.345-1.383l-.108.669a.42.42 0 0 0 .415.484h2.19a.7.7 0 0 0 .692-.592l1.315-8.27a.42.42 0 0 0-.42-.483zm-3.39 4.708c-.233 1.382-1.328 2.31-2.727 2.31-.7 0-1.262-.225-1.622-.652-.357-.423-.491-1.026-.379-1.697.217-1.369 1.329-2.327 2.706-2.327.685 0 1.244.227 1.61.658.368.434.513 1.04.412 1.708z" fill="#003087"/>
+                <path d="M68.198 12.118h-2.446a.7.7 0 0 0-.578.306l-3.342 4.922-1.416-4.731a.7.7 0 0 0-.671-.497h-2.402a.42.42 0 0 0-.398.556l2.668 7.832-2.509 3.543a.42.42 0 0 0 .344.661h2.444a.7.7 0 0 0 .575-.302l8.062-11.638a.42.42 0 0 0-.341-.652z" fill="#003087"/>
+                <path d="M76.28 7.422h-5.084a.7.7 0 0 0-.693.592l-2.044 12.963-.006.038a.42.42 0 0 0 .415.483h2.606c.228 0 .422-.166.457-.392l.58-3.686a.7.7 0 0 1 .692-.591h1.608c3.348 0 5.28-1.62 5.784-4.831.227-1.404.009-2.507-.649-3.28-.722-.847-2-1.296-3.686-1.296zm.586 4.757c-.277 1.826-1.67 1.826-3.018 1.826h-.767l.539-3.408a.42.42 0 0 1 .415-.355h.351c.918 0 1.784 0 2.232.523.267.313.348.777.248 1.414z" fill="#009cde"/>
+                <path d="M93.469 12.118h-2.432a.42.42 0 0 0-.416.355l-.106.675-.17-.245c-.522-.76-1.688-1.013-2.853-1.013-2.67 0-4.952 2.024-5.395 4.861-.231 1.416.097 2.769.899 3.713.738.868 1.79 1.229 3.044 1.229 2.152 0 3.345-1.383 3.345-1.383l-.107.669a.42.42 0 0 0 .414.484h2.19a.7.7 0 0 0 .693-.592l1.314-8.27a.42.42 0 0 0-.42-.483zm-3.39 4.708c-.232 1.382-1.327 2.31-2.726 2.31-.701 0-1.262-.225-1.622-.652-.358-.423-.492-1.026-.38-1.697.218-1.369 1.33-2.327 2.707-2.327.684 0 1.243.227 1.61.658.368.434.512 1.04.41 1.708z" fill="#009cde"/>
+                <path d="M97.076 7.738l-2.074 13.2-.006.039a.42.42 0 0 0 .415.482h2.095a.7.7 0 0 0 .692-.592l2.045-12.963.006-.038a.42.42 0 0 0-.415-.483h-2.343a.42.42 0 0 0-.415.355z" fill="#009cde"/>
+              </svg>
+            </div>
+            <!-- Séparateur -->
+            <div class="paypal-divider"></div>
+            <!-- Côté droit : cartes bancaires -->
+            <div class="paypal-half-right">
+              <div class="card-icons">
+                <span class="card-icon visa">VISA</span>
+                <span class="card-icon mc">
+                  <span class="mc-dots">
+                    <span class="mc-dot mc-dot-red"></span>
+                    <span class="mc-dot mc-dot-orange"></span>
+                  </span>
+                </span>
+              </div>
+              <span class="paypal-cards-label">Carte</span>
+            </div>
+          </button>
+        </div>
+        <div class="secure-note">Paiement 100% sécurisé — Cryptage SSL</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal">
+    <div class="modal-icon">✨</div>
+    <div class="modal-title">Commande confirmée</div>
+    <div class="modal-sub">Votre commande a bien été reçue. Nous la traitons dans les meilleurs délais.</div>
+    <div class="modal-order-id" id="modalOrderId"></div>
+    <button class="btn-gold" onclick="closeModal()" style="cursor:pointer">Parfait, merci !</button>
+  </div>
+</div>
+
+<script>
+  // ── HERO PARTICLES ──
+  (function() {
+    const container = document.getElementById('heroParticles');
+    const count = 28;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.cssText = `
+        left: ${Math.random() * 100}%;
+        top: ${40 + Math.random() * 50}%;
+        --dur: ${6 + Math.random() * 8}s;
+        --delay: ${Math.random() * 8}s;
+        --op: ${0.2 + Math.random() * 0.4};
+        width: ${1 + Math.random() * 2}px;
+        height: ${1 + Math.random() * 2}px;
+      `;
+      container.appendChild(p);
+    }
+  })();
+
+  // ── CART STATE ──
+  let cart = [];
+
+  function resetToChooser() {
+    document.getElementById('platformChooser').style.display = 'block';
+    document.getElementById('servicesContent').style.display = 'none';
+  }
+
+  function selectPlatform(p) {
+    document.getElementById('platformChooser').style.display = 'none';
+    document.getElementById('servicesContent').style.display = 'block';
+    document.getElementById('platformTabs').style.display = 'none';
+    switchPlatform(p);
+  }
+
+  function switchPlatform(p) {
+    document.querySelectorAll('.ptab').forEach(t => t.classList.remove('active'));
+    const tab = document.getElementById('tab-' + p);
+    if (tab) tab.classList.add('active');
+    document.querySelectorAll('.platform-panels > div').forEach(d => d.classList.remove('active'));
+    document.getElementById('panel-' + p).classList.add('active');
+  }
+
+  function updateFollowersPrice(id, qty, pricePerUnit) {
+    const val = parseInt(qty);
+    const equiv = document.getElementById('equiv-' + id);
+    if (!val || val <= 0) { equiv.textContent = '€0'; return; }
+    const price = (val * pricePerUnit).toFixed(2).replace('.', ',');
+    equiv.textContent = '€' + price;
+  }
+
+  function addToCartFollowers(id, platform, label, icon, minQty, pricePerUnit) {
+    const qtyInput = document.getElementById('qty-' + id);
+    const qty = parseInt(qtyInput.value);
+    if (!qty || qty < minQty) {
+      alert(`Le minimum est de ${minQty.toLocaleString('fr-FR')} abonnés.`);
+      return;
+    }
+    const handle = document.getElementById('handle-' + id).value.trim();
+    if (!handle) { alert('Veuillez entrer le lien de votre profil.'); return; }
+    const price = parseFloat((qty * pricePerUnit).toFixed(2));
+    const item = {
+      id: id + '_' + Date.now(),
+      label, platform, icon,
+      qty: qty.toLocaleString('fr-FR') + ' abonnés',
+      price, handle
+    };
+    cart.push(item);
+    renderCart(); openCart(); showAddFeedback(event.target);
+  }
+
+  function updateLikesPrice(id, qty, pricePerLike) {
+    const val = parseInt(qty);
+    const equiv = document.getElementById('equiv-' + id);
+    const err = document.getElementById('err-' + id);
+    const btn = document.getElementById('btn-' + id);
+    if (!val || val <= 0) {
+      equiv.textContent = '€0';
+      err.style.display = 'none';
+      btn.disabled = false;
+      return;
+    }
+    if (val < 20000) {
+      equiv.textContent = '€0';
+      err.style.display = 'block';
+      btn.disabled = true;
+      return;
+    }
+    err.style.display = 'none';
+    btn.disabled = false;
+    const price = (val * pricePerLike).toFixed(2).replace('.', ',');
+    equiv.textContent = '€' + price;
+  }
+
+  function addPostRow(id) {
+    const list = document.getElementById('posts-' + id);
+    const isIG = id.includes('ig');
+    const row = document.createElement('div');
+    row.className = 'post-row';
+    row.innerHTML = `
+      <input class="card-input post-link" placeholder="${isIG ? 'Lien du post' : 'Lien de la vidéo'}" type="text">
+      <input class="card-input post-nb" type="number" min="1000" step="1000" placeholder="nb likes">
+      <button onclick="this.parentElement.remove()" style="background:none;border:none;color:#666;cursor:pointer;font-size:1rem;padding:4px;flex-shrink:0;">✕</button>
+    `;
+    list.appendChild(row);
+  }
+
+  function addToCartLikes(id, platform, label, icon, minQty, pricePerLike) {
+    const qty = parseInt(document.getElementById('qty-' + id).value);
+    if (!qty || qty < minQty) {
+      alert(`Le minimum est de ${minQty.toLocaleString('fr-FR')} likes.`);
+      return;
+    }
+    const rows = document.querySelectorAll(`#posts-${id} .post-row`);
+    let handle = '';
+    let valid = true;
+    rows.forEach(row => {
+      const link = row.querySelector('.post-link').value.trim();
+      const nb = row.querySelector('.post-nb').value.trim();
+      if (!link) { valid = false; return; }
+      handle += link + (nb ? ` (${parseInt(nb).toLocaleString('fr-FR')} likes)` : '') + '\n';
+    });
+    if (!valid || !handle.trim()) { alert('Veuillez entrer au moins un lien.'); return; }
+    const price = parseFloat((qty * pricePerLike).toFixed(2));
+    const item = {
+      id: id + '_' + Date.now(),
+      label, platform, icon,
+      qty: qty.toLocaleString('fr-FR') + ' likes',
+      price,
+      handle: handle.trim()
+    };
+    cart.push(item);
+    renderCart(); openCart(); showAddFeedback(event.target);
+  }
+
+  function validateForm() {
+    const email = document.getElementById('orderEmail').value.trim();
+    const name = document.getElementById('orderName').value.trim();
+    if (!cart.length) { alert('Votre panier est vide.'); return false; }
+    if (!email) { alert('Merci de remplir votre email.'); return false; }
+    if (!name) { alert('Merci de remplir votre prénom.'); return false; }
+    return true;
+  }
+
+  // Sauvegarde temporaire avant PayPal (sessionStorage)
+  function stagePendingOrder(orderId, method) {
+    const email = document.getElementById('orderEmail').value.trim();
+    const name = document.getElementById('orderName').value.trim();
+    const total = cart.reduce((s, i) => s + i.price, 0);
+    const order = {
+      id: orderId,
+      date: new Date().toISOString(),
+      name, email,
+      payMethod: method,
+      total,
+      items: JSON.parse(JSON.stringify(cart)),
+      status: 'pending'
+    };
+    sessionStorage.setItem('prestige_pending_order', JSON.stringify(order));
+  }
+
+  // Confirme la commande dans localStorage (admin) uniquement si paiement OK
+  function confirmOrder(orderId) {
+    const raw = sessionStorage.getItem('prestige_pending_order');
+    if (!raw) return;
+    const order = JSON.parse(raw);
+    if (order.id !== orderId) return;
+    const orders = JSON.parse(localStorage.getItem('prestige_orders') || '[]');
+    orders.unshift(order);
+    localStorage.setItem('prestige_orders', JSON.stringify(orders));
+    sessionStorage.removeItem('prestige_pending_order');
+  }
+
+  function showSuccess(orderId) {
+    document.getElementById('modalOrderId').textContent = 'Commande n° ' + orderId;
+    document.getElementById('successModal').classList.add('open');
+    cart = [];
+    renderCart();
+    document.getElementById('cartPanel').classList.remove('open');
+  }
+
+  async function payWithPaypal() {
+    if (!validateForm()) return;
+    const total = cart.reduce((s, i) => s + i.price, 0);
+    const email = document.getElementById('orderEmail').value.trim();
+    const name = document.getElementById('orderName').value.trim();
+    const orderId = 'PSP-' + Date.now().toString(36).toUpperCase();
+
+    // On stocke temporairement — pas encore dans l'admin
+    stagePendingOrder(orderId, 'PayPal');
+
+    const btn = document.querySelector('.btn-paypal');
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<div style="padding:14px;text-align:center;width:100%;font-family:Montserrat,sans-serif;font-size:0.72rem;letter-spacing:0.15em;color:rgba(245,240,232,0.6);">⏳ Redirection…</div>';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/.netlify/functions/create-paypal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId, total, email, name, items: cart })
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        btn.innerHTML = orig;
+        btn.disabled = false;
+        sessionStorage.removeItem('prestige_pending_order');
+        alert('Erreur PayPal. Réessayez.');
+      }
+    } catch(e) {
+      btn.innerHTML = orig;
+      btn.disabled = false;
+      sessionStorage.removeItem('prestige_pending_order');
+      alert('Erreur réseau. Vérifiez votre connexion.');
+    }
+  }
+
+  function addToCart(id, platform, label, icon) {
+    const sel = document.getElementById('qty-' + id);
+    const opt = sel.options[sel.selectedIndex];
+    const price = parseFloat(opt.dataset.price);
+    const qty = sel.value;
+    const handle = document.getElementById('handle-' + id).value.trim();
+    if (!handle) { alert('Veuillez entrer votre pseudo ou lien.'); return; }
+    const item = { id: id + '_' + Date.now(), label, platform, icon, qty, price, handle };
+    cart.push(item); renderCart(); openCart(); showAddFeedback(event.target);
+  }
+
+  function showAddFeedback(btn) {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Ajouté';
+    btn.style.background = 'var(--gold)';
+    btn.style.color = 'var(--black)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1600);
+  }
+
+  function removeFromCart(id) { cart = cart.filter(i => i.id !== id); renderCart(); }
+
+  function renderCart() {
+    const container = document.getElementById('cartItems');
+    const footer = document.getElementById('cartFooter');
+    const badge = document.getElementById('cartBadge');
+    badge.textContent = cart.length;
+    badge.style.display = cart.length ? 'flex' : 'none';
+    if (!cart.length) {
+      container.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><div>Votre panier est vide</div></div>';
+      footer.style.display = 'none';
+      return;
+    }
+    footer.style.display = 'block';
+    container.innerHTML = cart.map(item => `
+      <div class="cart-item">
+        <div class="cart-item-icon">${item.icon}</div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.label}</div>
+          <div class="cart-item-handle">${item.handle}</div>
+          <div class="cart-item-sub">Qté : ${item.qty}</div>
+        </div>
+        <div class="cart-item-price">€${item.price.toFixed(2).replace('.',',')}</div>
+        <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">✕</button>
+      </div>
+    `).join('');
+    const total = cart.reduce((s, i) => s + i.price, 0);
+    document.getElementById('cartTotal').textContent = '€' + total.toFixed(2).replace('.',',');
+  }
+
+  function toggleCart() { document.getElementById('cartPanel').classList.toggle('open'); }
+  function openCart() { document.getElementById('cartPanel').classList.add('open'); }
+  function closeModal() { document.getElementById('successModal').classList.remove('open'); }
+
+  // Retour PayPal success — capture paiement + mail + sauvegarde admin
+  const urlP = new URLSearchParams(window.location.search);
+  if (urlP.get('paypal_success') === 'true') {
+    const oid = urlP.get('order') || '';
+    const paypalToken = urlP.get('token') || ''; // token PayPal = paypalOrderId
+    if (oid && paypalToken) {
+      // Récupérer les infos stockées temporairement
+      const pending = JSON.parse(sessionStorage.getItem('prestige_pending_order') || '{}');
+      // Appeler capture-paypal : capture paiement + envoi mail
+      fetch('/.netlify/functions/capture-paypal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          paypalOrderId: paypalToken,
+          orderId: oid,
+          total: pending.total || 0,
+          email: pending.email || '',
+          name: pending.name || '',
+          items: pending.items || []
+        })
+      }).then(r => r.json()).then(data => {
+        if (data.success) {
+          confirmOrder(oid); // sauvegarde dans localStorage (admin)
+        }
+      }).catch(e => console.log('Capture error:', e));
+
+      // Afficher la modale de succès immédiatement
+      document.getElementById('modalOrderId').textContent = 'Commande n° ' + oid;
+      document.getElementById('successModal').classList.add('open');
+    }
+  }
+
+  // ── ADMIN ──
+  const ADMIN_PWD = '1234ghjise';
+  let adminFilter = 'all';
+  let adminRecords = [];
+  let adminRefreshTimer = null;
+
+  function openAdmin() {
+    document.getElementById('adminOverlay').style.display = 'block';
+    document.body.style.overflow = 'hidden';
+    document.getElementById('adminPwdInput').focus();
+  }
+  function closeAdmin() {
+    document.getElementById('adminOverlay').style.display = 'none';
+    document.body.style.overflow = '';
+    document.getElementById('adminLogin').style.display = 'flex';
+    document.getElementById('adminDashboard').style.display = 'none';
+    document.getElementById('adminPwdInput').value = '';
+    document.getElementById('adminLoginError').style.display = 'none';
+    clearInterval(adminRefreshTimer);
+  }
+  function tryAdminLogin() {
+    const pwd = document.getElementById('adminPwdInput').value;
+    if (pwd === ADMIN_PWD) {
+      document.getElementById('adminLogin').style.display = 'none';
+      document.getElementById('adminDashboard').style.display = 'block';
+      loadAdminOrders();
+      adminRefreshTimer = setInterval(loadAdminOrders, 60000);
+    } else {
+      document.getElementById('adminLoginError').style.display = 'block';
+      document.getElementById('adminPwdInput').value = '';
+    }
+  }
+  function adminLogout() {
+    closeAdmin();
+  }
+  function setAdminFilter(f, btn) {
+    adminFilter = f;
+    document.querySelectorAll('.afbtn').forEach(b => {
+      b.style.background = 'none';
+      b.style.color = 'var(--gray)';
+      b.style.borderColor = 'rgba(201,168,76,0.15)';
+    });
+    btn.style.background = 'var(--gold)';
+    btn.style.color = 'var(--black)';
+    btn.style.borderColor = 'var(--gold)';
+    renderAdminOrders();
+  }
+  async function updateAdminStatus(recordId, newStatus) {
+    try {
+      await fetch('/.netlify/functions/update-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recordId, status: newStatus })
+      });
+      await loadAdminOrders();
+    } catch(e) { alert('Erreur lors de la mise à jour.'); }
+  }
+  async function loadAdminOrders() {
+    const btn = document.getElementById('adminRefreshBtn');
+    if (btn) btn.style.opacity = '0.5';
+    try {
+      const res = await fetch('/.netlify/functions/get-orders');
+      const data = await res.json();
+      adminRecords = data.records || [];
+      const total = adminRecords.length;
+      const pending = adminRecords.filter(r => r.fields['Statut'] === 'En attente').length;
+      const done = adminRecords.filter(r => r.fields['Statut'] === 'Traité').length;
+      const revenue = adminRecords.filter(r => r.fields['Statut'] === 'Traité').reduce((s,r) => s + (parseFloat(r.fields['Total'])||0), 0);
+      document.getElementById('aStatTotal').textContent = total;
+      document.getElementById('aStatPending').textContent = pending;
+      document.getElementById('aStatDone').textContent = done;
+      document.getElementById('aStatRevenue').textContent = '€' + revenue.toFixed(2).replace('.',',');
+      const now = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+      document.getElementById('aLastRefresh').textContent = 'Mis à jour à ' + now;
+      renderAdminOrders();
+    } catch(e) {
+      document.getElementById('adminOrdersList').innerHTML = '<div style="text-align:center;padding:60px;color:#e74c3c;font-size:0.72rem;letter-spacing:0.1em;">⚠️ Erreur de connexion à Airtable.</div>';
+    }
+    if (btn) btn.style.opacity = '1';
+  }
+  function renderAdminOrders() {
+    const filtered = adminFilter === 'all' ? adminRecords : adminRecords.filter(r => r.fields['Statut'] === adminFilter);
+    const container = document.getElementById('adminOrdersList');
+    if (!filtered.length) {
+      container.innerHTML = '<div style="text-align:center;padding:80px;color:var(--gray);font-size:0.72rem;letter-spacing:0.1em;">📋 Aucune commande trouvée.</div>';
+      return;
+    }
+    container.innerHTML = filtered.map(record => {
+      const f = record.fields;
+      const rid = record.id;
+      const isPending = f['Statut'] === 'En attente';
+      const articlesHtml = (f['Articles']||'').split('\n').filter(Boolean).map(line => {
+        const p = line.split(' — ');
+        return `<div style="margin-bottom:5px;padding-bottom:5px;border-bottom:1px solid rgba(201,168,76,0.06);">
+          <div style="font-size:0.68rem;font-weight:500;">${p[0]||''}</div>
+          <div style="font-size:0.62rem;color:var(--gold);">${p[1]||''}</div>
+          <div style="font-size:0.58rem;color:var(--gray);word-break:break-all;">${p[2]||''}</div>
+        </div>`;
+      }).join('');
+      return `<div style="display:grid;grid-template-columns:150px 120px 1fr 180px 110px 140px 150px;padding:18px 20px;border-bottom:1px solid rgba(201,168,76,0.05);align-items:start;transition:background 0.2s;" onmouseover="this.style.background='var(--dark2)'" onmouseout="this.style.background='transparent'">
+        <div style="font-size:0.68rem;color:var(--gold);font-weight:500;letter-spacing:0.05em;">${f['ID Commande']||'—'}</div>
+        <div style="font-size:0.62rem;color:var(--gray);line-height:1.6;">${f['Date']||'—'}</div>
+        <div>${articlesHtml||'—'}</div>
+        <div style="font-size:0.65rem;line-height:1.6;">
+          <div style="font-weight:500;">${f['Prénom']||'—'}</div>
+          <div style="color:var(--gray);font-size:0.6rem;">${f['Email']||'—'}</div>
+        </div>
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold);">€${parseFloat(f['Total']||0).toFixed(2).replace('.',',')}</div>
+          <div style="font-size:0.6rem;color:var(--gray);text-transform:uppercase;letter-spacing:0.1em;">🅿️ PayPal</div>
+        </div>
+        <div>
+          <span style="display:inline-block;padding:4px 12px;font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;border-radius:2px;${isPending ? 'background:rgba(243,156,18,0.15);color:#f39c12;border:1px solid rgba(243,156,18,0.3);' : 'background:rgba(46,204,113,0.1);color:#2ecc71;border:1px solid rgba(46,204,113,0.2);'}">
+            ${isPending ? '⏳ En attente' : '✅ Traité'}
+          </span>
+        </div>
+        <div>
+          ${isPending
+            ? `<button onclick="updateAdminStatus('${rid}','Traité')" style="background:none;border:1px solid rgba(46,204,113,0.3);color:#2ecc71;font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:6px 12px;cursor:pointer;width:100%;transition:all 0.2s;" onmouseover="this.style.background='rgba(46,204,113,0.1)'" onmouseout="this.style.background='none'">✓ Marquer traité</button>`
+            : `<button onclick="updateAdminStatus('${rid}','En attente')" style="background:none;border:1px solid rgba(201,168,76,0.2);color:var(--gray);font-family:'Montserrat',sans-serif;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:6px 12px;cursor:pointer;width:100%;transition:all 0.2s;" onmouseover="this.style.borderColor='#e74c3c';this.style.color='#e74c3c'" onmouseout="this.style.borderColor='rgba(201,168,76,0.2)';this.style.color='var(--gray)'">↩ Remettre</button>`
+          }
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── SCROLL ANIMATIONS ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* Grain texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.35;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 24px 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(6,6,6,0.8);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    transition: padding 0.3s;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+  .logo:hover { opacity: 0.8; }
+  .logo span { font-style: italic; color: var(--white); }
+  nav ul { list-style: none; display: flex; gap: 44px; }
+  nav ul a {
+    text-decoration: none; color: var(--white);
+    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+    opacity: 0.55; transition: opacity 0.3s, color 0.3s;
+    position: relative;
+  }
+  nav ul a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: var(--gold);
+    transform: scaleX(0); transition: transform 0.3s;
+  }
+  nav ul a:hover { opacity: 1; color: var(--gold); }
+  nav ul a:hover::after { transform: scaleX(1); }
+  .nav-cta {
+    font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid rgba(201,168,76,0.5);
+    padding: 10px 26px; text-decoration: none;
+    transition: all 0.35s; background: transparent;
+    position: relative; overflow: hidden;
+  }
+  .nav-cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    transform: translateX(-101%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    z-index: -1;
+  }
+  .nav-cta:hover { color: var(--black); border-color: var(--gold); }
+  .nav-cta:hover::before { transform: translateX(0); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-aurora {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 20% 60%, rgba(201,168,76,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 30%, rgba(201,168,76,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 90% 70% at 50% 50%, rgba(201,168,76,0.04) 0%, transparent 70%);
+    animation: aurora-shift 12s ease-in-out infinite alternate;
+  }
+  @keyframes aurora-shift {
+    0% { transform: scale(1) rotate(0deg); }
+    100% { transform: scale(1.05) rotate(1deg); }
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.035) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+  /* Floating particles */
+  .hero-particles {
+    position: absolute; inset: 0; pointer-events: none;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float-particle var(--dur, 8s) var(--delay, 0s) infinite ease-in-out;
+  }
+  @keyframes float-particle {
+    0% { opacity: 0; transform: translateY(0px) scale(1); }
+    20% { opacity: var(--op, 0.4); }
+    80% { opacity: var(--op, 0.4); }
+    100% { opacity: 0; transform: translateY(-120px) scale(0.5); }
+  }
+  .hero-content { position: relative; z-index: 2; }
+  .hero-tag {
+    font-size: 0.62rem; letter-spacing: 0.5em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 36px;
+    display: flex; align-items: center; justify-content: center; gap: 20px;
+  }
+  .hero-tag-line {
+    display: block; width: 48px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold));
+    opacity: 0.6;
+  }
+  .hero-tag-line:last-child { background: linear-gradient(90deg, var(--gold), transparent); }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.8rem, 9vw, 8.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 36px;
+  }
+  h1 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-light) 50%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: 0.78rem; letter-spacing: 0.12em;
+    color: rgba(245,240,232,0.45);
+    max-width: 400px; line-height: 1.9;
+    margin: 0 auto 60px;
+  }
+  .hero-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .btn-gold {
+    background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+    background-size: 200% 200%;
+    color: var(--black);
+    border: none;
+    padding: 16px 48px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+    font-weight: 500;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.4s;
+    position: relative; overflow: hidden;
+  }
+  .btn-gold::before {
+    content: '';
+    position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
+  }
+  .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(201,168,76,0.35); background-position: right; }
+  .btn-gold:hover::before { left: 100%; }
+  .btn-outline {
+    background: transparent;
+    color: rgba(245,240,232,0.7);
+    border: 1px solid rgba(245,240,232,0.15);
+    padding: 16px 48px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+    text-decoration: none; cursor: pointer;
+    transition: all 0.3s;
+  }
+  .btn-outline:hover { border-color: rgba(201,168,76,0.5); color: var(--gold); transform: translateY(-3px); }
+
+  /* ─── PLATFORMS STRIP ─── */
+  .platforms-strip {
+    display: flex; justify-content: center; gap: 0;
+    padding: 16px 0 56px;
+  }
+  .plat-pill {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 32px;
+    font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase;
+    border: 1px solid rgba(201,168,76,0.12);
+    color: rgba(245,240,232,0.4);
+    transition: all 0.3s;
+  }
+  .plat-pill:hover { color: var(--white); border-color: rgba(201,168,76,0.25); }
+  .plat-pill:first-child { border-right: none; }
+  .plat-pill:last-child { border-left: none; }
+  .plat-dot { width: 5px; height: 5px; border-radius: 50%; }
+  .dot-tiktok { background: var(--tiktok); box-shadow: 0 0 6px var(--tiktok); }
+  .dot-insta { background: var(--insta); box-shadow: 0 0 6px var(--insta); }
+  .dot-yt { background: var(--yt); box-shadow: 0 0 6px var(--yt); }
+
+  /* ─── SECTION TITLES ─── */
+  .section-label {
+    font-size: 0.6rem; letter-spacing: 0.45em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 18px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-label::before { content: ''; display: block; width: 28px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 5vw, 4.2rem);
+    font-weight: 300;
+    line-height: 1.08;
+    margin-bottom: 20px;
+  }
+  h2 em {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── SERVICES ─── */
+  #services {
+    padding: 110px 64px;
+    max-width: 1440px; margin: 0 auto;
+  }
+  .services-header { margin-bottom: 72px; }
+  .services-desc {
+    font-size: 0.76rem; color: rgba(245,240,232,0.4);
+    max-width: 460px; line-height: 2; letter-spacing: 0.06em;
+    margin-top: 8px;
+  }
+
+  /* Platform chooser */
+  .platform-chooser { text-align: center; padding: 40px 0 64px; }
+  .chooser-label {
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: rgba(245,240,232,0.35); margin-bottom: 48px;
+  }
+  .chooser-cards { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; }
+  .chooser-card {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.12);
+    padding: 56px 64px;
+    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+    text-align: center; min-width: 220px;
+    position: relative; overflow: hidden; cursor: pointer;
+  }
+  .chooser-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.07) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .chooser-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    transform: scaleX(0); transition: transform 0.4s;
+  }
+  .chooser-card:hover { border-color: rgba(201,168,76,0.35); transform: translateY(-6px); box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.1); }
+  .chooser-card:hover::before { opacity: 1; }
+  .chooser-card:hover::after { transform: scaleX(1); }
+  .chooser-icon { font-size: 2.8rem; margin-bottom: 20px; filter: drop-shadow(0 0 8px rgba(201,168,76,0.3)); }
+  .chooser-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 300; margin-bottom: 10px; letter-spacing: 0.05em;
+  }
+  .chooser-sub { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); opacity: 0.8; }
+
+  /* Card notices */
+  .card-rate { font-size: 0.72rem; letter-spacing: 0.05em; color: var(--gold); margin-bottom: 6px; font-weight: 400; }
+  .card-rate span { color: var(--gray); font-weight: 300; }
+  .card-notice {
+    display: block;
+    font-size: 0.62rem; color: rgba(245,240,232,0.4);
+    line-height: 1.7; margin-top: 8px;
+    border-left: 1px solid rgba(201,168,76,0.25);
+    padding-left: 10px;
+  }
+  .card-notice strong { color: rgba(245,240,232,0.65); }
+
+  /* Platform tabs */
+  .platform-tabs {
+    display: flex; gap: 0; margin-bottom: 48px;
+    border-bottom: 1px solid rgba(201,168,76,0.1);
+  }
+  .ptab {
+    padding: 14px 40px;
+    font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gray); background: none; border: none; cursor: pointer;
+    transition: all 0.3s;
+    border-bottom: 1px solid transparent; margin-bottom: -1px;
+    font-family: 'Montserrat', sans-serif;
+  }
+  .ptab.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .ptab:hover { color: var(--white); }
+
+  /* Services grid */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1px;
+    background: rgba(201,168,76,0.07);
+  }
+  .service-card {
+    background: var(--dark2);
+    padding: 44px 40px;
+    position: relative; overflow: hidden;
+    cursor: default;
+    transition: background 0.35s;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0; transition: opacity 0.35s;
+  }
+  /* Shimmer on hover */
+  .service-card::after {
+    content: '';
+    position: absolute; top: -50%; left: -60%; width: 40%; height: 200%;
+    background: linear-gradient(105deg, transparent, rgba(201,168,76,0.06), transparent);
+    transform: skewX(-10deg);
+    transition: left 0.7s ease;
+    pointer-events: none;
+  }
+  .service-card:hover { background: var(--dark3); }
+  .service-card:hover::before { opacity: 1; }
+  .service-card:hover::after { left: 120%; }
+  .card-type {
+    font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 14px; opacity: 0.75;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 300;
+    margin-bottom: 10px; line-height: 1.1; letter-spacing: 0.02em;
+  }
+  .card-desc {
+    font-size: 0.7rem; color: rgba(245,240,232,0.38);
+    line-height: 1.9; margin-bottom: 28px;
+    letter-spacing: 0.04em;
+  }
+  .card-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem; font-weight: 300;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 4px;
+  }
+  .card-price span { font-size: 1rem; color: var(--gray); -webkit-text-fill-color: var(--gray); }
+  .card-qty { font-size: 0.62rem; color: var(--gray); letter-spacing: 0.1em; margin-bottom: 28px; }
+  .card-qty-select {
+    width: 100%;
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.18);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem; padding: 11px 14px;
+    margin-bottom: 16px;
+    appearance: none; cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 14px center;
+    letter-spacing: 0.05em; transition: border-color 0.3s;
+  }
+  .card-qty-select:focus { outline: none; border-color: rgba(201,168,76,0.5); }
+  .card-input {
+    width: 100%;
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.15);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem; padding: 11px 14px;
+    margin-bottom: 16px; letter-spacing: 0.05em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .card-input::placeholder { color: rgba(245,240,232,0.2); }
+  .card-input:focus { outline: none; border-color: rgba(201,168,76,0.4); box-shadow: 0 0 0 3px rgba(201,168,76,0.06); }
+  .btn-add {
+    width: 100%;
+    background: transparent;
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.66rem; letter-spacing: 0.24em; text-transform: uppercase;
+    padding: 13px; cursor: pointer;
+    transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .btn-add::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: var(--gold);
+    transform: translateY(101%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    z-index: 0;
+  }
+  .btn-add span { position: relative; z-index: 1; }
+  .btn-add:hover { color: var(--black); }
+  .btn-add:hover::before { transform: translateY(0); }
+  .card-corner {
+    position: absolute; top: 20px; right: 20px;
+    font-size: 1.8rem; opacity: 0.05;
+    transition: opacity 0.3s;
+  }
+  .service-card:hover .card-corner { opacity: 0.1; }
+  .platform-panels > div { display: none; }
+  .platform-panels > div.active { display: block; }
+
+  /* ─── CART SIDEBAR ─── */
+  .cart-toggle {
+    position: fixed; bottom: 40px; right: 40px;
+    z-index: 600;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    color: var(--black);
+    border: none;
+    width: 58px; height: 58px;
+    border-radius: 50%; cursor: pointer;
+    font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 32px rgba(201,168,76,0.4), 0 0 0 1px rgba(201,168,76,0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .cart-toggle:hover { transform: scale(1.12) rotate(-5deg); box-shadow: 0 16px 48px rgba(201,168,76,0.5); }
+  .cart-badge {
+    position: absolute; top: -4px; right: -4px;
+    background: var(--white); color: var(--black);
+    font-size: 0.58rem; font-weight: 600;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cart-panel {
+    position: fixed; top: 0; right: -460px; bottom: 0;
+    width: 440px;
+    background: var(--dark2);
+    border-left: 1px solid rgba(201,168,76,0.12);
+    z-index: 700;
+    transition: right 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex; flex-direction: column;
+  }
+  .cart-panel.open { right: 0; }
+  .cart-panel-head {
+    padding: 36px;
+    border-bottom: 1px solid rgba(201,168,76,0.08);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .cart-panel-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem; font-weight: 300;
+    letter-spacing: 0.06em;
+  }
+  .cart-close {
+    background: none; border: 1px solid rgba(201,168,76,0.15); color: var(--gray);
+    font-size: 1rem; cursor: pointer; transition: all 0.2s;
+    width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  }
+  .cart-close:hover { color: var(--gold); border-color: var(--gold); }
+  .cart-items { flex: 1; overflow-y: auto; padding: 24px 36px; }
+  .cart-item {
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(201,168,76,0.06);
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .cart-item-icon {
+    width: 42px; height: 42px;
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; flex-shrink: 0;
+  }
+  .cart-item-info { flex: 1; }
+  .cart-item-name { font-size: 0.76rem; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .cart-item-handle { font-size: 0.62rem; color: var(--gold); margin-bottom: 4px; letter-spacing: 0.05em; opacity: 0.8; }
+  .cart-item-sub { font-size: 0.62rem; color: var(--gray); }
+  .cart-item-price {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; color: var(--gold); white-space: nowrap;
+  }
+  .cart-item-remove {
+    background: none; border: none; color: var(--gray);
+    font-size: 0.8rem; cursor: pointer; padding: 4px;
+    transition: color 0.2s;
+  }
+  .cart-item-remove:hover { color: #ff4444; }
+  .cart-empty {
+    text-align: center; padding: 72px 20px;
+    color: var(--gray); font-size: 0.74rem; letter-spacing: 0.12em;
+  }
+  .cart-empty-icon { font-size: 2.5rem; opacity: 0.15; margin-bottom: 20px; }
+  .cart-footer {
+    padding: 28px 36px;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    background: rgba(0,0,0,0.2);
+  }
+  .cart-total-main {
+    display: flex; justify-content: space-between;
+    align-items: baseline; margin-bottom: 24px;
+  }
+  .cart-total-label {
+    font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(245,240,232,0.6);
+  }
+  .cart-total-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── ORDER FORM ─── */
+  .order-form { margin-top: 16px; }
+  .form-input {
+    width: 100%;
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.15);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem; padding: 12px 14px;
+    margin-bottom: 10px; letter-spacing: 0.05em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .form-input::placeholder { color: rgba(245,240,232,0.2); }
+  .form-input:focus { outline: none; border-color: rgba(201,168,76,0.4); box-shadow: 0 0 0 3px rgba(201,168,76,0.06); }
+
+  /* ─── PAYMENT ─── */
+  .payment-section { margin-top: 14px; }
+  .payment-label {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(245,240,232,0.35); margin-bottom: 12px;
+  }
+  .payment-methods { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+
+  /* ── PayPal button — logo gauche + cartes droite ── */
+  .btn-paypal {
+    width: 100%; padding: 0;
+    border: 1px solid rgba(201,168,76,0.2);
+    cursor: pointer; transition: all 0.3s;
+    display: flex; align-items: stretch;
+    overflow: hidden; background: none;
+  }
+  .btn-paypal:hover { border-color: rgba(201,168,76,0.45); transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+  .paypal-half-left {
+    flex: 1; background: #F5BB00;
+    display: flex; align-items: center; justify-content: center;
+    padding: 13px 20px 13px 16px;
+    position: relative;
+    transition: background 0.3s;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+    margin-right: -10px;
+    z-index: 1;
+  }
+  .btn-paypal:hover .paypal-half-left { background: #e6ac00; }
+  .paypal-half-left svg { height: 20px; }
+  .paypal-divider { display: none; }
+  .paypal-half-right {
+    flex: 1; background: var(--dark3);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 16px 13px 24px;
+    transition: background 0.3s;
+    clip-path: polygon(14px 0, 100% 0, 100% 100%, 0 100%);
+  }
+  .btn-paypal:hover .paypal-half-right { background: var(--dark4); }
+  .paypal-cards-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(245,240,232,0.5);
+  }
+  .card-icons { display: flex; gap: 5px; align-items: center; }
+  .card-icon {
+    border-radius: 3px;
+    padding: 3px 5px; font-size: 0.5rem;
+    font-weight: 700; letter-spacing: 0;
+  }
+  .card-icon.visa { background: #1a1f71; color: white; }
+  .card-icon.mc {
+    background: white; display: flex; align-items: center; padding: 2px;
+    border-radius: 3px;
+  }
+  /* Mastercard SVG-style dots */
+  .mc-dots {
+    display: flex; align-items: center;
+  }
+  .mc-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+  }
+  .mc-dot-red { background: #eb001b; }
+  .mc-dot-orange { background: #f79e1b; margin-left: -4px; opacity: 0.85; }
+
+  .secure-note {
+    font-size: 0.58rem; color: rgba(245,240,232,0.25);
+    letter-spacing: 0.1em; text-align: center; margin-top: 10px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .secure-note::before { content: '🔒'; font-size: 0.6rem; }
+
+  /* ─── SUCCESS MODAL ─── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.88);
+    backdrop-filter: blur(8px);
+    z-index: 900;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.2);
+    padding: 64px 56px;
+    max-width: 460px; width: 90%;
+    text-align: center;
+    transform: translateY(24px) scale(0.98);
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    position: relative; overflow: hidden;
+  }
+  .modal::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+  .modal-icon {
+    font-size: 2.8rem; margin-bottom: 28px;
+    display: inline-block;
+    animation: pulse-gold 2.5s ease-in-out infinite;
+  }
+  @keyframes pulse-gold {
+    0%, 100% { filter: drop-shadow(0 0 8px rgba(201,168,76,0.3)); }
+    50% { filter: drop-shadow(0 0 24px rgba(201,168,76,0.7)); }
+  }
+  .modal-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.4rem; font-weight: 300;
+    margin-bottom: 14px; letter-spacing: 0.02em;
+  }
+  .modal-sub { font-size: 0.72rem; color: rgba(245,240,232,0.45); line-height: 1.9; letter-spacing: 0.05em; margin-bottom: 36px; }
+  .modal-order-id { font-size: 0.62rem; letter-spacing: 0.25em; color: var(--gold); margin-bottom: 36px; opacity: 0.8; }
+
+  /* ─── TRUST BAR ─── */
+  .trust-bar {
+    border-top: 1px solid rgba(201,168,76,0.07);
+    border-bottom: 1px solid rgba(201,168,76,0.07);
+    padding: 48px 64px;
+    display: flex; align-items: center; justify-content: center; gap: 80px;
+    flex-wrap: wrap;
+    background: linear-gradient(to right, transparent, rgba(201,168,76,0.02), transparent);
+  }
+  .trust-item {
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    text-align: center;
+  }
+  .trust-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem; font-weight: 300; line-height: 1;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .trust-label { font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gray); }
+
+  /* ─── PROCESS ─── */
+  #process {
+    padding: 110px 64px;
+    max-width: 1200px; margin: 0 auto;
+  }
+  .process-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: rgba(201,168,76,0.07);
+    margin-top: 72px;
+  }
+  .process-item {
+    background: var(--dark2); padding: 52px 36px;
+    position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .process-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0; transition: opacity 0.3s;
+  }
+  .process-item:hover { background: var(--dark3); }
+  .process-item:hover::before { opacity: 1; }
+  .process-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem; font-weight: 300;
+    color: rgba(201,168,76,0.1); line-height: 1;
+    margin-bottom: 28px;
+    transition: color 0.3s;
+  }
+  .process-item:hover .process-num { color: rgba(201,168,76,0.2); }
+  .process-title { font-size: 0.82rem; letter-spacing: 0.12em; margin-bottom: 14px; font-weight: 400; }
+  .process-desc { font-size: 0.7rem; color: rgba(245,240,232,0.38); line-height: 1.9; letter-spacing: 0.03em; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 64px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(201,168,76,0.07);
+    flex-wrap: wrap; gap: 24px;
+    background: linear-gradient(to top, rgba(201,168,76,0.02), transparent);
+    position: relative;
+  }
+  footer::before {
+    content: '';
+    position: absolute; top: 0; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent);
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; color: var(--gold); letter-spacing: 0.35em;
+  }
+  .footer-copy { font-size: 0.62rem; color: rgba(245,240,232,0.3); letter-spacing: 0.12em; }
+  .footer-links { display: flex; gap: 36px; }
+  .footer-links a { font-size: 0.62rem; color: rgba(245,240,232,0.35); text-decoration: none; letter-spacing: 0.12em; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--gold); }
+  .admin-secret {
     font-size: 0.45rem; color: rgba(245,240,232,0.08);
     text-decoration: none; letter-spacing: 0.1em;
     transition: color 0.5s, opacity 0.5s;
