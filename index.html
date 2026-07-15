@@ -819,17 +819,151 @@
   .fade-up.visible { opacity: 1; transform: translateY(0); }
 
   /* ─── RESPONSIVE ─── */
+  /* Scroll hint — caché sur desktop */
+  .process-scroll-hint { display: none; }
+
   @media (max-width: 768px) {
-    nav { padding: 18px 24px; }
+    /* FOND NOIR PARTOUT comme desktop */
+    body, .hero, #services, #process, .trust-bar,
+    .service-card, .process-item, .chooser-card,
+    .stat-card, footer, .platform-tabs, .services-grid,
+    .process-grid, .platforms-strip, .cart-panel,
+    .cart-panel-head, .cart-footer, .cart-items {
+      background-color: inherit;
+    }
+    html, body { background: #060606 !important; }
+    /* NAV */
+    nav {
+      padding: 16px 20px;
+      background: rgba(6,6,6,0.95);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
     nav ul { display: none; }
-    #services, #process { padding: 64px 24px; }
-    .process-grid { grid-template-columns: 1fr 1fr; }
-    .trust-bar { gap: 40px; padding: 40px 24px; }
-    footer { padding: 40px 24px; flex-direction: column; text-align: center; }
-    .footer-links { justify-content: center; }
+    .nav-cta {
+      padding: 9px 18px;
+      font-size: 0.62rem;
+      flex-shrink: 0;
+    }
+    .logo { font-size: 1.2rem; }
+
+    /* HERO */
+    h1 { font-size: clamp(2.8rem, 10vw, 4.5rem); }
+    .hero {
+      padding: 100px 24px 60px;
+      background: var(--black);
+    }
+    .hero-btns { flex-direction: column; align-items: center; }
+    .btn-gold, .btn-outline { width: 100%; text-align: center; }
+
+    /* PLATFORMS STRIP */
+    .platforms-strip { padding: 12px 0 36px; }
+
+    /* TRUST BAR — tous sur une ligne */
+    .trust-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      padding: 28px 12px;
+      border-left: none; border-right: none;
+    }
+    .trust-item { gap: 6px; padding: 0 4px; }
+    .trust-num { font-size: 1.8rem; }
+    .trust-label { font-size: 0.48rem; letter-spacing: 0.1em; }
+
+    /* SERVICES */
+    #services { padding: 48px 16px; }
+
+    /* Chooser cards — côte à côte */
+    .chooser-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .chooser-card { padding: 32px 16px; min-width: unset; }
+    .chooser-icon { font-size: 2rem; margin-bottom: 12px; }
+    .chooser-name { font-size: 1.5rem; }
+
+    /* Services grid — côte à côte */
+    .services-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+    }
+    .service-card { padding: 28px 20px; }
+    .card-title { font-size: 1.6rem; }
+    .card-price { font-size: 2rem; }
+
+    /* PROCESS — scroll horizontal avec indicateur */
+    #process { padding: 48px 0 48px 20px; }
+    #process .fade-up { padding-right: 20px; }
+    .process-grid {
+      display: flex;
+      flex-direction: row;
+      gap: 0;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 16px;
+      /* Masquer la scrollbar tout en gardant le scroll */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .process-grid::-webkit-scrollbar { display: none; }
+    .process-item {
+      flex: 0 0 72vw;
+      max-width: 280px;
+      scroll-snap-align: start;
+      padding: 32px 24px;
+      min-width: unset;
+      border-right: 1px solid rgba(201,168,76,0.1);
+      position: relative;
+    }
+    /* Dernier item avec ombre pour indiquer qu'il y en a d'autres */
+    .process-item:last-child {
+      border-right: none;
+      margin-right: 20px;
+    }
+    /* Indicateur de scroll */
+    .process-scroll-hint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      padding: 0 20px;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(201,168,76,0.7);
+      animation: pulse-hint 2s ease-in-out infinite;
+    }
+    @keyframes pulse-hint {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+    .process-num { font-size: 3rem; margin-bottom: 20px; }
+    .process-title { font-size: 0.8rem; }
+    .process-desc { font-size: 0.68rem; }
+
+    /* FOOTER */
+    footer { padding: 32px 20px; flex-direction: column; text-align: center; gap: 16px; }
+    .footer-links { justify-content: center; flex-wrap: wrap; gap: 20px; }
+
+    /* CART */
     .cart-panel { width: 100%; right: -100%; }
     .cart-panel.open { right: 0; }
-    h1 { font-size: clamp(3rem, 10vw, 5rem); }
+    .cart-toggle { bottom: 24px; right: 20px; }
+
+    /* PLATFORM TABS */
+    .ptab { padding: 12px 20px; font-size: 0.6rem; }
+  }
+
+  /* Très petit écran — process scrollable */
+  @media (max-width: 480px) {
+    .trust-bar { grid-template-columns: repeat(4, minmax(70px, 1fr)); }
+    .process-item { flex: 0 0 80vw; }
+    .services-grid { grid-template-columns: 1fr; }
+    .chooser-cards { grid-template-columns: 1fr 1fr; }
   }
 </style>
 </head>
@@ -1073,6 +1207,10 @@
       <div class="process-title">Livraison garantie</div>
       <div class="process-desc">Traitement sous 24–48h. Livraison discrète et progressive.</div>
     </div>
+  </div>
+  <!-- Indicateur scroll mobile -->
+  <div class="process-scroll-hint">
+    Glissez pour voir la suite →
   </div>
 </section>
 
