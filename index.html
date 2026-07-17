@@ -821,6 +821,10 @@
   /* ─── RESPONSIVE ─── */
   /* Scroll hint — caché sur desktop */
   .process-scroll-hint { display: none; }
+  /* En-tête tableau admin — caché sur mobile */
+  @media (max-width: 768px) {
+    #adminTableHead { display: none !important; }
+  }
 
   @media (max-width: 768px) {
     /* FOND NOIR PARTOUT comme desktop */
@@ -1323,7 +1327,7 @@
 
       <!-- Table -->
       <div style="background:var(--dark);border:1px solid rgba(201,168,76,0.08);">
-        <div style="display:grid;grid-template-columns:150px 120px 1fr 180px 110px 140px 150px;padding:14px 20px;border-bottom:1px solid rgba(201,168,76,0.1);background:var(--dark2);">
+        <div id="adminTableHead" style="display:grid;grid-template-columns:150px 120px 1fr 180px 110px 140px 150px;padding:14px 20px;border-bottom:1px solid rgba(201,168,76,0.1);background:var(--dark2);">
           <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">N° Commande</span>
           <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">Date</span>
           <span style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);">Détail</span>
@@ -1843,6 +1847,13 @@
       const now = new Date().toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
       document.getElementById('aLastRefresh').textContent = 'Mis à jour à ' + now;
       renderAdminOrders();
+      // Cacher l'en-tête tableau sur mobile
+      const th = document.getElementById('adminTableHead');
+      if (th) th.style.display = window.innerWidth < 768 ? 'none' : 'grid';
+      // Cacher aussi l'en-tête au refresh
+      window.addEventListener('resize', () => {
+        if (th) th.style.display = window.innerWidth < 768 ? 'none' : 'grid';
+      });
     } catch(e) {
       document.getElementById('adminOrdersList').innerHTML = '<div style="text-align:center;padding:60px;color:#e74c3c;font-size:0.72rem;letter-spacing:0.1em;">⚠️ Erreur de connexion à Airtable.</div>';
     }
