@@ -1499,11 +1499,11 @@
     const errId = 'err-' + input.id;
     const err = document.getElementById(errId);
     if (!val) { if(err) err.style.display = 'none'; input.style.borderColor = 'rgba(201,168,76,0.15)'; return true; }
+    // Accepte les URLs avec paramètres (?igsh=..., ?utm_source=..., etc.)
     const valid = platform === 'instagram'
-      ? /^https:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9._]+\/?$/.test(val)
-      : /^https:\/\/(www\.)?tiktok\.com\/@[a-zA-Z0-9._]+\/?$/.test(val);
+      ? /^https:\/\/(www\.)?instagram\.com\/[a-zA-Z0-9._]+[^\s]*$/.test(val)
+      : /^https:\/\/(www\.)?tiktok\.com\/@[a-zA-Z0-9._]+[^\s]*$/.test(val);
     if (err) err.style.display = valid ? 'none' : 'block';
-    // Pas de couleur sur le champ
     input.style.borderColor = 'rgba(201,168,76,0.15)';
     return valid;
   }
@@ -1511,9 +1511,10 @@
   function validatePostLink(input, platform) {
     const val = input.value.trim();
     if (!val) { input.style.borderColor = 'rgba(201,168,76,0.15)'; return true; }
+    // Accepte video/, photo/, reel/, p/ et paramètres URL
     const valid = platform === 'instagram'
-      ? /^https:\/\/(www\.)?instagram\.com\/(p|reel)\/[a-zA-Z0-9_-]+\/?/.test(val)
-      : /^https:\/\/(www\.)?tiktok\.com\/@[a-zA-Z0-9._]+\/video\/[0-9]+/.test(val);
+      ? /^https:\/\/(www\.)?instagram\.com\/(p|reel)\/[a-zA-Z0-9_-]+[^\s]*/.test(val)
+      : /^https:\/\/(www\.)?tiktok\.com\/@[a-zA-Z0-9._]+\/(video|photo)\/[0-9]+[^\s]*/.test(val);
     input.style.borderColor = valid ? 'rgba(46,204,113,0.4)' : 'rgba(255,68,68,0.4)';
     return valid;
   }
