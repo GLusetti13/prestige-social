@@ -1,5 +1,5 @@
 const PAYPAL_CLIENT_ID = 'AcLThrRvV8jviz-oARQgPOYnAm6ZkJ8cQ4Hz9q2TPZ7hnww3tzAfHHixgHDzKhxwndntm7W0FFEG9DRx';
-const PAYPAL_API = 'api-m.sandbox.paypal.com';
+const PAYPAL_API = 'https://api-m.sandbox.paypal.com';
 
 async function getAccessToken() {
   const credentials = Buffer.from(`${PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET_KEY}`).toString('base64');
