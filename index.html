@@ -1739,6 +1739,8 @@
   if (urlP.get('paypal_success') === 'true') {
     const oid = urlP.get('order') || '';
     const paypalToken = urlP.get('token') || ''; // token PayPal = paypalOrderId
+    // Nettoyer l'URL pour éviter une double commande au refresh
+    window.history.replaceState({}, document.title, 'https://prestige-social.netlify.app');
     if (oid && paypalToken) {
       // Récupérer les infos stockées temporairement
       const pending = JSON.parse(sessionStorage.getItem('prestige_pending_order') || '{}');
