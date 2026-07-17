@@ -1271,7 +1271,7 @@
   <!-- ADMIN PANEL -->
   <div id="adminDashboard" style="display:none;">
     <!-- Nav -->
-    <div style="background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.1);padding:20px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:10;">
+    <div style="background:var(--dark2);border-bottom:1px solid rgba(201,168,76,0.1);padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:10;">
       <div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold);letter-spacing:0.2em;">PRESTIGE Social</div>
         <div style="font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-top:2px;">Panneau admin</div>
@@ -1290,9 +1290,9 @@
       </div>
     </div>
 
-    <div style="padding:40px;max-width:1400px;margin:0 auto;">
+    <div style="padding:20px;max-width:1400px;margin:0 auto;" id="adminContent">
       <!-- Stats -->
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,76,0.08);margin-bottom:40px;">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(201,168,76,0.08);margin-bottom:24px;" id="adminStatsGrid">
         <div style="background:var(--dark);padding:28px 24px;">
           <div style="font-size:0.6rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray);margin-bottom:8px;">Total commandes</div>
           <div id="aStatTotal" style="font-family:'Cormorant Garamond',serif;font-size:2.4rem;font-weight:300;color:var(--white);">—</div>
@@ -1855,6 +1855,7 @@
       container.innerHTML = '<div style="text-align:center;padding:80px;color:var(--gray);font-size:0.72rem;letter-spacing:0.1em;">📋 Aucune commande trouvée.</div>';
       return;
     }
+    const isMobile = window.innerWidth < 768;
     container.innerHTML = filtered.map(record => {
       const f = record.fields;
       const rid = record.id;
@@ -1862,11 +1863,51 @@
       const articlesHtml = (f['Articles']||'').split('\n').filter(Boolean).map(line => {
         const p = line.split(' — ');
         return `<div style="margin-bottom:5px;padding-bottom:5px;border-bottom:1px solid rgba(201,168,76,0.06);">
-          <div style="font-size:0.68rem;font-weight:500;">${p[0]||''}</div>
-          <div style="font-size:0.62rem;color:var(--gold);">${p[1]||''}</div>
-          <div style="font-size:0.58rem;color:var(--gray);word-break:break-all;">${p[2]||''}</div>
+          <div style="font-size:0.72rem;font-weight:500;">${p[0]||''}</div>
+          <div style="font-size:0.66rem;color:var(--gold);margin-top:2px;">${p[1]||''}</div>
+          <div style="font-size:0.6rem;color:var(--gray);word-break:break-all;margin-top:2px;">${p[2]||''}</div>
         </div>`;
       }).join('');
+
+      if (isMobile) {
+        // VERSION MOBILE — carte empilée
+        return `
+        <div style="padding:20px;border-bottom:1px solid rgba(201,168,76,0.08);background:var(--dark2);margin-bottom:1px;">
+          <!-- Header carte -->
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+            <div>
+              <div style="font-size:0.72rem;color:var(--gold);font-weight:500;letter-spacing:0.05em;margin-bottom:3px;">${f['ID Commande']||'—'}</div>
+              <div style="font-size:0.6rem;color:var(--gray);">${f['Date']||'—'}</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold);">€${parseFloat(f['Total']||0).toFixed(2).replace('.',',')}</div>
+              <span style="display:inline-block;padding:3px 10px;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;border-radius:2px;${isPending ? 'background:rgba(243,156,18,0.15);color:#f39c12;border:1px solid rgba(243,156,18,0.3);' : 'background:rgba(46,204,113,0.1);color:#2ecc71;border:1px solid rgba(46,204,113,0.2);'}">
+                ${isPending ? '⏳ En attente' : '✅ Traité'}
+              </span>
+            </div>
+          </div>
+          <!-- Client -->
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;padding:10px 12px;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.08);">
+            <div style="font-size:0.85rem;">👤</div>
+            <div>
+              <div style="font-size:0.72rem;font-weight:500;">${f['Prénom']||'—'}</div>
+              <div style="font-size:0.62rem;color:var(--gray);">${f['Email']||'—'}</div>
+            </div>
+          </div>
+          <!-- Articles -->
+          <div style="margin-bottom:14px;">
+            <div style="font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.5);margin-bottom:8px;">Commande</div>
+            ${articlesHtml||'—'}
+          </div>
+          <!-- Action -->
+          ${isPending
+            ? `<button onclick="updateAdminStatus('${rid}','Traité')" style="width:100%;background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.35);color:#2ecc71;font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:12px;cursor:pointer;">✓ Marquer comme traité</button>`
+            : `<button onclick="updateAdminStatus('${rid}','En attente')" style="width:100%;background:none;border:1px solid rgba(201,168,76,0.15);color:var(--gray);font-family:'Montserrat',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;padding:12px;cursor:pointer;">↩ Remettre en attente</button>`
+          }
+        </div>`;
+      }
+
+      // VERSION DESKTOP — tableau
       return `<div style="display:grid;grid-template-columns:150px 120px 1fr 180px 110px 140px 150px;padding:18px 20px;border-bottom:1px solid rgba(201,168,76,0.05);align-items:start;transition:background 0.2s;" onmouseover="this.style.background='var(--dark2)'" onmouseout="this.style.background='transparent'">
         <div style="font-size:0.68rem;color:var(--gold);font-weight:500;letter-spacing:0.05em;">${f['ID Commande']||'—'}</div>
         <div style="font-size:0.62rem;color:var(--gray);line-height:1.6;">${f['Date']||'—'}</div>
