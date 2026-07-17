@@ -1,4 +1,4 @@
-const PAYPAL_CLIENT_ID = 'AcLThrRvV8jviz-oARQgPOYnAm6ZkJ8cQ4Hz9q2TPZ7hnww3tzAfHHixgHDzKhxwndntm7W0FFEG9DRx';
+const PAYPAL_CLIENT_ID = 'AanTxBfk-bUZ84SRf8LH4uALqvtidY-UzjMrz81Xkmj0KUuq4QvEx0zsI_pTSTtWW7-tgo3qPlJaJbud';
 const PAYPAL_API = 'https://api-m.sandbox.paypal.com';
 
 async function getAccessToken() {
