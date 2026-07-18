@@ -1916,47 +1916,57 @@
     document.getElementById('modalTotal').textContent = '€' + parseFloat(f['Total']||0).toFixed(2).replace('.',',');
     document.getElementById('modalStatus').innerHTML = `<span style="display:inline-block;padding:3px 10px;font-size:0.55rem;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;border-radius:2px;${isPending ? 'background:rgba(243,156,18,0.15);color:#f39c12;border:1px solid rgba(243,156,18,0.3);' : 'background:rgba(46,204,113,0.1);color:#2ecc71;border:1px solid rgba(46,204,113,0.2);'}">${isPending ? '⏳ En attente' : '✅ Traité'}</span>`;
 
-    // Parser les articles
-    const lines = (f['Articles']||'').split('\n').filter(Boolean);
-    const articlesHtml = lines.map(line => {
-      const p = line.split(' — ');
-      const service = p[0] || '';
-      const qtyRaw = p[1] || '';
-      const linkRaw = p[2] || '';
+    // Parser les articles — regrouper les lignes de liens avec leur article parent
+    const allLines = (f['Articles']||'').split('\n');
+    const articles = [];
+    let current = null;
+    allLines.forEach(line => {
+      if (!line.trim()) return;
+      if (line.includes(' — ')) {
+        // Nouvelle ligne article principale
+        const p = line.split(' — ');
+        current = { service: p[0]||'', qty: p[1]||'', links: [] };
+        if (p[2] && p[2].trim()) current.links.push(p[2].trim());
+        articles.push(current);
+      } else if (current && (line.trim().startsWith('http') || line.trim().startsWith('www'))) {
+        // Ligne de lien supplémentaire rattachée à l'article courant
+        current.links.push(line.trim());
+      }
+    });
 
-      // Extraire nb likes si présent dans la quantité
-      const isLikes = qtyRaw.toLowerCase().includes('like');
-      const nbMatch = qtyRaw.match(/[\d\s]+/);
-      const nb = nbMatch ? nbMatch[0].trim() : '';
-
-      // Parser plusieurs liens (séparés par des retours à la ligne dans linkRaw)
-      const links = linkRaw.split('\n').filter(Boolean);
-
-      const linksHtml = links.map(l => {
-        const lTrim = l.trim();
-        const likeMatch = lTrim.match(/\(([^)]+likes?)\)/i);
-        const likeCount = likeMatch ? likeMatch[1] : null;
-        const cleanLink = lTrim.replace(/\s*\([^)]*\)/, '').trim();
-        return `<div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--dark3);border:1px solid rgba(201,168,76,0.1);margin-bottom:6px;border-radius:2px;">
-          <span style="font-size:0.9rem;">🔗</span>
-          <a href="${cleanLink}" target="_blank" style="color:var(--gold);font-size:0.7rem;word-break:break-all;text-decoration:none;flex:1;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${cleanLink}</a>
-          ${likeCount ? `<span style="flex-shrink:0;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);color:var(--gold);font-size:0.6rem;letter-spacing:0.1em;padding:3px 8px;">${likeCount}</span>` : ''}
+    const renderLink = (l) => {
+      const lTrim = l.trim();
+      const likeMatch = lTrim.match(/\(([\d\s]+(?:likes?|like))\)/i);
+      const likeCount = likeMatch ? likeMatch[1].trim() : null;
+      const cleanLink = lTrim.replace(/\s*\([^)]*\)/, '').trim();
+      return `
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--dark3);border:1px solid rgba(201,168,76,0.1);margin-bottom:8px;">
+          <span style="font-size:1rem;flex-shrink:0;">🔗</span>
+          <a href="${cleanLink}" target="_blank" style="color:var(--gold);font-size:0.68rem;word-break:break-all;text-decoration:none;flex:1;line-height:1.5;" onmouseover="this.style.opacity='0.7'" onmouseout="this.style.opacity='1'">${cleanLink}</a>
+          ${likeCount ? `<span style="flex-shrink:0;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);color:var(--gold);font-size:0.6rem;letter-spacing:0.08em;padding:4px 10px;white-space:nowrap;">${likeCount}</span>` : ''}
         </div>`;
-      }).join('');
+    };
 
-      return `<div style="margin-bottom:20px;padding:18px;background:rgba(201,168,76,0.03);border:1px solid rgba(201,168,76,0.1);">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
-          <div style="font-size:1.2rem;">${service.split(' ')[0]||'📦'}</div>
-          <div>
-            <div style="font-size:0.8rem;font-weight:500;">${service.replace(/^[^\s]+\s/,'')}</div>
-            <div style="font-size:0.68rem;color:var(--gold);margin-top:2px;">${qtyRaw}</div>
+    const articlesHtml = articles.map((art, idx) => {
+      const emoji = art.service.split(' ')[0] || '📦';
+      const name = art.service.replace(/^\S+\s/, '');
+      const linksHtml = art.links.map(renderLink).join('');
+      return `
+        <div style="margin-bottom:16px;border:1px solid rgba(201,168,76,0.12);overflow:hidden;">
+          <!-- En-tête article -->
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;background:rgba(201,168,76,0.05);border-bottom:1px solid rgba(201,168,76,0.08);">
+            <div style="font-size:1.3rem;">${emoji}</div>
+            <div style="flex:1;">
+              <div style="font-size:0.78rem;font-weight:500;margin-bottom:2px;">${name}</div>
+              <div style="font-size:0.65rem;color:var(--gold);">${art.qty}</div>
+            </div>
+            <div style="font-size:0.6rem;color:rgba(245,240,232,0.3);letter-spacing:0.1em;">${art.links.length} lien${art.links.length > 1 ? 's' : ''}</div>
           </div>
-        </div>
-        ${linksHtml || (linkRaw ? `<div style="padding:10px 14px;background:var(--dark3);border:1px solid rgba(201,168,76,0.1);border-radius:2px;">
-          <a href="${linkRaw}" target="_blank" style="color:var(--gold);font-size:0.7rem;word-break:break-all;text-decoration:none;">${linkRaw}</a>
-          ${isLikes && nb ? `<span style="margin-left:8px;background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);color:var(--gold);font-size:0.6rem;letter-spacing:0.1em;padding:3px 8px;">${nb} likes</span>` : ''}
-        </div>` : '<div style="font-size:0.68rem;color:var(--gray);">Aucun lien fourni</div>')}
-      </div>`;
+          <!-- Liens -->
+          <div style="padding:12px 14px 4px;">
+            ${linksHtml || '<div style="font-size:0.65rem;color:var(--gray);padding:8px 0;">Aucun lien fourni</div>'}
+          </div>
+        </div>`;
     }).join('');
 
     document.getElementById('modalArticles').innerHTML = articlesHtml || '<div style="color:var(--gray);font-size:0.72rem;">Aucun détail</div>';
@@ -1990,14 +2000,49 @@
       const f = record.fields;
       const rid = record.id;
       const isPending = f['Statut'] === 'En attente';
-      const articlesHtml = (f['Articles']||'').split('\n').filter(Boolean).map(line => {
-        const p = line.split(' — ');
-        return `<div style="margin-bottom:5px;padding-bottom:5px;border-bottom:1px solid rgba(201,168,76,0.06);">
-          <div style="font-size:0.72rem;font-weight:500;">${p[0]||''}</div>
-          <div style="font-size:0.66rem;color:var(--gold);margin-top:2px;">${p[1]||''}</div>
-          <div style="font-size:0.6rem;color:var(--gray);word-break:break-all;margin-top:2px;">${p[2]||''}</div>
-        </div>`;
-      }).join('');
+      // Construire un affichage propre pour la liste admin
+      const buildArticlesHtml = (articles) => {
+        const lines = (articles||'').split('\n').filter(Boolean);
+        const serviceLines = lines.filter(l => l.includes(' — '));
+        const linkLines = lines.filter(l => !l.includes(' — '));
+
+        return serviceLines.map(line => {
+          const parts = line.split(' — ');
+          const service = parts[0] || '';
+          const qty = parts[1] || '';
+          const firstLink = parts.slice(2).join(' — ').trim();
+          const allLinks = [];
+          if (firstLink) allLinks.push(firstLink);
+          linkLines.forEach(l => allLinks.push(l));
+          const isLikes = qty.toLowerCase().includes('like');
+
+          const linksHtml = allLinks.map((rawLink, idx) => {
+            const lTrim = rawLink.trim();
+            const likeMatch = lTrim.match(/\(([\d\s,]+likes?)\)/i);
+            const likeCount = likeMatch ? likeMatch[1].trim() : null;
+            const cleanLink = lTrim.replace(/\s*\([^)]*likes?[^)]*\)/i, '').trim();
+            const shortLink = cleanLink.length > 38 ? cleanLink.substring(0,38)+'…' : cleanLink;
+            return `<div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:rgba(0,0,0,0.3);border-left:2px solid rgba(201,168,76,0.3);margin-bottom:4px;">
+              <span style="color:rgba(201,168,76,0.5);font-size:0.58rem;flex-shrink:0;">${idx+1}</span>
+              <a href="${cleanLink}" target="_blank" title="${cleanLink}" style="color:rgba(201,168,76,0.8);font-size:0.6rem;text-decoration:none;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(201,168,76,0.8)'">${shortLink}</a>
+              ${likeCount ? `<span style="flex-shrink:0;font-size:0.55rem;color:var(--gold);background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);padding:2px 6px;">${likeCount}</span>` : ''}
+            </div>`;
+          }).join('');
+
+          return `<div style="margin-bottom:8px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+              <span style="font-size:1rem;">${service.split(' ')[0]||'📦'}</span>
+              <div>
+                <div style="font-size:0.7rem;font-weight:500;">${service.replace(/^\S+\s/,'')}</div>
+                <div style="font-size:0.62rem;color:var(--gold);">${qty}</div>
+              </div>
+            </div>
+            ${linksHtml}
+          </div>`;
+        }).join('');
+      };
+
+      const articlesHtml = buildArticlesHtml(f['Articles']);
 
       if (isMobile) {
         // VERSION MOBILE — carte empilée
